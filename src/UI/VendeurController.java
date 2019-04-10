@@ -3,6 +3,7 @@ import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.text.Text;
 import utils.User;
 import SQL.SQLHelper;
 import javafx.collections.FXCollections;
@@ -21,9 +22,18 @@ import java.util.ResourceBundle;
 public class VendeurController  implements Initializable {
 
     public SQLHelper SQL = new SQLHelper();
+    public Text titre_afficher;
+    public Text condition_afficher;
+    public Text etatvente_afficher;
+    public Text adresse_afficher;
+    public Text norue_afficher;
+    public Text ville_afficher;
+    public Text codepostal_afficher;
+
     ArrayList<Produit> listProduits = new ArrayList();
     @FXML
     ListView<String> list_produit_vendeur = new ListView<String>();
+    
 
 
     @Override
@@ -57,6 +67,40 @@ public class VendeurController  implements Initializable {
             @Override
             public void handle(MouseEvent event) {
                 System.out.println("clicked on " + list_produit_vendeur.getSelectionModel().getSelectedIndex());
+
+                String ProduitId = listProduits.get( list_produit_vendeur.getSelectionModel().getSelectedIndex()).getId();
+
+                ResultSet rProduit = SQL.getProduitVendeur2(ProduitId);
+                try {
+                    rProduit.next();
+                    String cat  = rProduit.getString(1);
+                    String titre  = rProduit.getString(2);
+                    String etat  = rProduit.getString(3);
+                    String etatprod  = rProduit.getString(4);
+                    String prix = rProduit.getString(5);
+                    String description = rProduit.getString(6);
+                    String norue= rProduit.getString(7);
+                    String nomrue = rProduit.getString(8);
+                    String codePost = rProduit.getString(9);
+                    String ville = rProduit.getString(10);
+
+                    titre_afficher.setText(titre);
+                    etatvente_afficher.setText(titre);
+                    codepostal_afficher.setText(codePost);
+                    ville_afficher.setText(ville);
+                    norue_afficher.setText(norue);
+                    etatvente_afficher.setText(etatprod);
+                    condition_afficher.setText(etat);
+
+
+
+
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+
+
+
             }
         });
 
