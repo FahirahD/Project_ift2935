@@ -66,8 +66,6 @@ public class VendeurController  implements Initializable {
 
             @Override
             public void handle(MouseEvent event) {
-                System.out.println("clicked on " + list_produit_vendeur.getSelectionModel().getSelectedIndex());
-
                 String ProduitId = listProduits.get( list_produit_vendeur.getSelectionModel().getSelectedIndex()).getId();
 
                 ResultSet rProduit = SQL.getProduitVendeur2(ProduitId);
