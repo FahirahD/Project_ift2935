@@ -10,8 +10,11 @@ public class Produit {
         this.titre = titre;
 
     }
-
+    public String getId (){
+        return id;
+    }
     public String getTitre() {
         return titre;
     }
+
 }

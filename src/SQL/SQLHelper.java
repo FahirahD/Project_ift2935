@@ -172,6 +172,13 @@ public class SQLHelper {
         return results;
     }
 
+    public ResultSet getProduitVendeur2(String idProduit) {
+
+        ResultSet results = query("select categorie,titre,etat,etat_prod_vente,prixEnVente,description_produit,numRue,nomRue,codePost,ville from produit natural join ficheProduit where id_prod = '" + idProduit + "';");
+
+        return results;
+    }
+
     public ResultSet getUnsoldItems(String seller) {
 
         ResultSet results = query("SELECT nom_produit, prix_souhaite FROM Produit WHERE ((annonceur_username='" + seller + "') AND (etat='dispo'));");
