@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UI.VendeurController">
+   <center>
+      <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+        <tabs>
+          <Tab text="Afficher Produit">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <ListView fx:id="list_produit_vendeur" layoutX="50.0" layoutY="62.0" onMouseClicked="#handleMouseClick" prefHeight="136.0" prefWidth="168.0" />
+                        <Pane layoutX="303.0" layoutY="86.0" prefHeight="200.0" prefWidth="259.0">
+                           <children>
+                              <Text layoutX="15.0" layoutY="21.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Titre:" wrappingWidth="34.78312110900879" />
+                              <Text fx:id="titre_afficher" layoutX="90.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nothing" />
+                              <Text layoutX="14.0" layoutY="38.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Condition:" wrappingWidth="65.78312110900879" />
+                              <Text fx:id="condition_afficher" layoutX="91.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nothing" wrappingWidth="54.383127212524414" />
+                              <Text layoutX="13.0" layoutY="58.0" strokeType="OUTSIDE" strokeWidth="0.0" text="État vente:" wrappingWidth="100.58310890197754" />
+                              <Text fx:id="etatvente_afficher" layoutX="91.0" layoutY="58.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nothing" wrappingWidth="54.383127212524414" />
+                              <Text layoutX="13.0" layoutY="82.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Adresse: " />
+                              <Text fx:id="adresse_afficher" layoutX="90.0" layoutY="83.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nothing" wrappingWidth="54.383127212524414" />
+                              <Text layoutX="13.0" layoutY="103.0" strokeType="OUTSIDE" strokeWidth="0.0" text="No rue :" />
+                              <Text fx:id="norue_afficher" layoutX="91.0" layoutY="103.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nothing" wrappingWidth="54.383127212524414" />
+                              <Text layoutX="15.0" layoutY="126.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ville :" />
+                              <Text fx:id="ville_afficher" layoutX="92.0" layoutY="124.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nothing" wrappingWidth="54.383127212524414" />
+                              <Text layoutX="10.0" layoutY="148.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Code Postal :" />
+                              <Text fx:id="codepostal_afficher" layoutX="93.0" layoutY="148.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nothing" wrappingWidth="54.383127212524414" />
+                           </children>
+                        </Pane>
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+          <Tab text="Ajouter Produit">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Text layoutX="45.0" layoutY="60.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nom :" />
+                        <TextField layoutX="105.0" layoutY="42.0" prefHeight="26.0" prefWidth="130.0" />
+                        <Text layoutX="41.0" layoutY="102.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Catégorie :" />
+                        <TextField layoutX="110.0" layoutY="84.0" prefHeight="26.0" prefWidth="127.0" />
+                        <Text layoutX="46.0" layoutY="144.0" strokeType="OUTSIDE" strokeWidth="0.0" text="État : " />
+                        <TextField layoutX="108.0" layoutY="126.0" prefHeight="26.0" prefWidth="141.0" />
+                        <Text layoutX="37.0" layoutY="200.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Description:" />
+                        <TextArea layoutX="114.0" layoutY="188.0" prefHeight="118.0" prefWidth="142.0" />
+                        <Text layoutX="292.0" layoutY="54.0" strokeType="OUTSIDE" strokeWidth="0.0" text="No rue :" />
+                        <TextField layoutX="373.0" layoutY="40.0" prefHeight="26.0" prefWidth="144.0" />
+                        <Text layoutX="287.0" layoutY="94.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Adresse: " />
+                        <TextField layoutX="373.0" layoutY="77.0" prefHeight="26.0" prefWidth="144.0" />
+                        <Text layoutX="288.0" layoutY="137.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Code Postal :" />
+                        <TextField layoutX="373.0" layoutY="119.0" prefHeight="26.0" prefWidth="144.0" />
+                        <Text layoutX="290.0" layoutY="177.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ville :" />
+                        <TextField layoutX="373.0" layoutY="157.0" prefHeight="26.0" prefWidth="144.0" />
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+            <Tab text="Modifier Produit">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+              </content>
+            </Tab>
+        </tabs>
+      </TabPane>
+   </center>
+</BorderPane>
