@@ -183,6 +183,14 @@ public class SQLHelper {
         ResultSet results = query(" select ajoutProduit('" + idBoutique + "','" + categorie + "','" + titre + "','" + prix_souhaite + "','" + etat + "','" + description + "','" + noRue + "','" + nomRue + "','" + codePost + "','" + ville + "');");
     }
 
+    public ResultSet getCategories() {
+
+        ResultSet results = query("SELECT nom from categories;");
+
+        return results;
+    }
+
+
 
     public ResultSet getUnsoldItems(String seller) {
 
