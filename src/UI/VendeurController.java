@@ -2,13 +2,13 @@ package UI;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import utils.User;
 import SQL.SQLHelper;
 import javafx.collections.FXCollections;
 import javafx.fxml.Initializable;
-import javafx.scene.control.ListView;
 import utils.Produit;
 
 import java.io.IOException;
@@ -22,6 +22,7 @@ import java.util.ResourceBundle;
 public class VendeurController  implements Initializable {
 
     public SQLHelper SQL = new SQLHelper();
+    //tab 1
     public Text titre_afficher;
     public Text condition_afficher;
     public Text etatvente_afficher;
@@ -29,15 +30,51 @@ public class VendeurController  implements Initializable {
     public Text norue_afficher;
     public Text ville_afficher;
     public Text codepostal_afficher;
+    //tab 2
+    public TextField titre_ajouter;
+    public ChoiceBox condition_ajouter;
+    public ChoiceBox categorie_ajouter;
+    public TextArea description_ajouter;
+    public TextField norue_ajouter;
+    public TextField nomrue_ajouter;
+    public TextField codepostal_ajouter;
+    public TextField ville_ajouter;
+    public Button button_ajouter_produit;
+    public TextField prix_ajouter;
+    // tab 3
 
     ArrayList<Produit> listProduits = new ArrayList();
     @FXML
     ListView<String> list_produit_vendeur = new ListView<String>();
     
 
+    public ArrayList<String> getCategories() throws SQLException{
+        ArrayList<String> nomCategorie = new ArrayList<String>();
+        ResultSet categories = SQL.getCategories();
+        while (categories.next()) {
+            nomCategorie.add(categories.getString("nom"));
+        }
+        return nomCategorie;
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        //init the choice boxes
+        String st[] = { "neuf", "occasion"};
+        condition_ajouter.setItems(FXCollections.observableArrayList(st));
+        condition_ajouter.setValue("neuf");
+
+        try {
+            ArrayList<String> nomCategorie= this.getCategories();
+            categorie_ajouter.setItems(FXCollections.observableArrayList(nomCategorie));
+            categorie_ajouter.setValue(nomCategorie.get(0));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
+
         ResultSet result = SQL.getBoutique(User.email);
         try {
             result.next();
@@ -108,6 +145,25 @@ public class VendeurController  implements Initializable {
     @FXML
     public void handleMouseClick(javafx.event.ActionEvent event) throws IOException {
         System.out.println("yo");
+    }
+
+    public void  ajouterProduit(){
+        String boutique = User.boutique;
+        String titre = titre_ajouter.getText();
+        String categorie = categorie_ajouter.getValue().toString();
+        String condition = condition_ajouter.getValue().toString();
+        String description= description_ajouter.getText();
+        String norue = norue_ajouter.getText();
+        String nomrue = nomrue_ajouter.getText();
+        String codepostal= codepostal_ajouter.getText();
+        String ville = ville_ajouter.getText();
+        String prix = prix_ajouter.getText();
+
+        System.out.println(boutique+titre+categorie+condition+description+norue+nomrue+codepostal+ville+prix);
+
+        SQL.ajouterProduitVendeur(boutique,categorie,titre,prix,condition,description,norue,nomrue,codepostal,ville);
+
+
     }
 
     public void initListProduit(ResultSet produit) throws SQLException {
