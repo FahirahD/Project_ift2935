@@ -39,7 +39,7 @@
                               <Text layoutX="14.0" layoutY="126.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ville :" />
                               <Text fx:id="ville_afficher" layoutX="85.0" layoutY="125.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="145.5830783843994" />
                               <Text layoutX="14.0" layoutY="148.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Code Postal :" />
-                              <Text fx:id="codepostal_afficher" layoutX="85.0" layoutY="148.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="155.1830539703369" />
+                              <Text fx:id="codepostal_afficher" layoutX="102.0" layoutY="148.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="155.1830539703369" />
                            </children>
                         </Pane>
                         <Button layoutX="466.0" layoutY="259.0" mnemonicParsing="false" text="Nigga" />
