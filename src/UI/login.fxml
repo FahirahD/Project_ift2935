@@ -21,7 +21,7 @@
             <PasswordField fx:id="password_field" layoutX="116.0" layoutY="264.0" prefHeight="40.0" prefWidth="267.0" promptText="mot de passe" />
             <Button fx:id="submit_button" layoutX="172.0" layoutY="353.0" mnemonicParsing="false" onAction="#login" prefHeight="26.0" prefWidth="156.0" text="Ouvrir une session" />
             <ChoiceBox fx:id="user_type" layoutX="415.0" layoutY="271.0" prefHeight="26.0" prefWidth="92.0" />
-            <Label fx:id="invalid_label" layoutX="236.0" layoutY="406.0" />
+            <Label fx:id="invalid_label" layoutX="163.0" layoutY="406.0" prefHeight="17.0" prefWidth="177.0" textFill="#ff7474" />
          </children>
       </AnchorPane>
       <Label text="Label" />
