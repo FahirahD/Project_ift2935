@@ -192,6 +192,7 @@ public class SQLHelper {
 
 
 
+
     public ResultSet getUnsoldItems(String seller) {
 
         ResultSet results = query("SELECT nom_produit, prix_souhaite FROM Produit WHERE ((annonceur_username='" + seller + "') AND (etat='dispo'));");
@@ -231,32 +232,14 @@ public class SQLHelper {
 
     // Methodes pour l'onglet Expert ////////////////////////////////////////////////////////////////////////////////////
 
-    /**
-     *	Recherche des produits dans la catégorie de l'expert dont il n'y a pas encore de prix estimé
-     */
-    public ResultSet getUnevaluatedProducts(String expert) {
+    public ResultSet getProduitToEstimate() {
 
-        ResultSet results = query("SELECT nom_produit, prix_souhaite, annonceur_username, telephone, adresse_facturation FROM Produit INNER JOIN Usager ON annonceur_username = Usager.username INNER JOIN Annonceur ON annonceur_username = Annonceur.username WHERE (nom_categorie = ANY(SELECT nom_categorie FROM Expertise WHERE usernameExp = '" + expert + "') AND prix_estime='0')");
+        ResultSet result = query("select id_prod,titre,prix_souhaite from estimation natural join produit where avis is null;");
 
-        return results;
+        return result;
+
+
     }
-
-    /**
-     *	Historique des produits estimés par l'expert et qui sont vendus
-     */
-    public ResultSet getExpertHistory(String username) {
-
-        ResultSet results = query("SELECT nom_produit, prix_estime, prix_vendu, annonceur_username, telephone, adresse_facturation FROM Produit INNER JOIN (SELECT id, usernameAch AS acheteur_username, MAX(prix_propose) AS prix_vendu FROM Offre GROUP BY id) AS Temp ON Produit.id = Temp.id INNER JOIN Usager ON annonceur_username = Usager.username INNER JOIN Annonceur ON annonceur_username = Annonceur.username WHERE (etat='vendu' AND expert_username='" + username + "')");
-
-        return results;
-    }
-
-    /**
-     *	Query utilse a l'application
-     */
-
-
-
 
     // Private helping methods /////////////////////////////////////////////////////////////////////////////////
 
