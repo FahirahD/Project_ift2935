@@ -3,6 +3,7 @@ import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import org.postgresql.util.PSQLException;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -47,7 +48,6 @@ public class VendeurController  implements Initializable {
     public TextField ville_ajouter;
     public Button button_ajouter_produit;
     public TextField prix_ajouter;
-    public Label erreurProdIdentique;
     // tab 3
 
     ArrayList<Produit> listProduits = new ArrayList();
@@ -161,7 +161,7 @@ public class VendeurController  implements Initializable {
         System.out.println("yo");
     }
 
-    public void  ajouterProduit() throws IOException {
+    public void  ajouterProduit() throws IOException , PSQLException {
         String boutique = User.boutique;
         String titre = titre_ajouter.getText();
         String categorie = categorie_ajouter.getValue().toString();
@@ -175,23 +175,16 @@ public class VendeurController  implements Initializable {
 
         System.out.println(boutique+titre+categorie+condition+description+norue+nomrue+codepostal+ville+prix);
 
-        try {
-            SQL.ajouterProduitVendeur(boutique, categorie, titre, prix, condition, description, norue, nomrue, codepostal, ville);
-            Parent expert_parent = FXMLLoader.load(getClass().getResource("expert.fxml"));
+        SQL.ajouterProduitVendeur(boutique, categorie, titre, prix, condition, description, norue, nomrue, codepostal, ville);
+        Parent expert_parent = FXMLLoader.load(getClass().getResource("expert.fxml"));
 
-            Scene estimation_scene = new Scene(expert_parent);
-            Stage estimationStage = new Stage();
+        Scene estimation_scene = new Scene(expert_parent);
+        Stage estimationStage = new Stage();
 
-            estimationStage.hide();
-            estimationStage.setScene(estimation_scene);
-            estimationStage.initModality(Modality.APPLICATION_MODAL);
-            estimationStage.show();
-            erreurProdIdentique.setText("Il est interdit de postuler 2 produits avec le même nom");
-        }
-        catch(Exception e){
-            System.out.println("K WOW ERROR");
-            erreurProdIdentique.setText("Il est interdit de postuler 2 produits avec le même nom");
-        }
+        estimationStage.hide();
+        estimationStage.setScene(estimation_scene);
+        estimationStage.initModality(Modality.APPLICATION_MODAL);
+        estimationStage.show();
 
 
     }

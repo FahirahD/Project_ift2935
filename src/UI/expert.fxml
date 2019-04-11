@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<VBox prefHeight="558.0" prefWidth="348.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<VBox prefHeight="558.0" prefWidth="348.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1 " fx:controller="UI.EstimationController">
   <children>
     <MenuBar VBox.vgrow="NEVER">
       <menus>
@@ -55,7 +55,7 @@
          <children>
             <Text layoutX="136.0" layoutY="229.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Estimer prix:" />
             <TextField fx:id="prixEstime" layoutX="33.0" layoutY="283.0" />
-            <Button fx:id="estimationOk" layoutX="243.0" layoutY="283.0" mnemonicParsing="false" text="OK" />
+            <Button fx:id="estimationOk" layoutX="243.0" layoutY="283.0" mnemonicParsing="false" onAction="#estimation_ok_press" text="OK" />
          </children>
     </AnchorPane>
   </children>
