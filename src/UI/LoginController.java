@@ -21,6 +21,7 @@ public class LoginController implements Initializable {
     public ChoiceBox user_type;
     public Label invalid_label;
 
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
