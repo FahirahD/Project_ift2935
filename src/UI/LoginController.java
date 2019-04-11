@@ -25,7 +25,7 @@ public class LoginController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        String st[] = { "Acheteur", "Vendeur", "Expert"};
+        String st[] = { "Acheteur", "Vendeur"};
         user_type.setItems(FXCollections.observableArrayList(st));
         user_type.setValue("Acheteur");
 
