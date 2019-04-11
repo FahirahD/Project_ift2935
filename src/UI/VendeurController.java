@@ -3,6 +3,7 @@ import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import utils.User;
@@ -13,7 +14,6 @@ import utils.Produit;
 
 import java.io.IOException;
 import java.net.URL;
-import java.net.UnknownServiceException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -57,6 +57,40 @@ public class VendeurController  implements Initializable {
         return nomCategorie;
     }
 
+    public void updateDescription(){
+        String ProduitId = listProduits.get( list_produit_vendeur.getSelectionModel().getSelectedIndex()).getId();
+
+        ResultSet rProduit = SQL.getProduitVendeur2(ProduitId);
+        try {
+            rProduit.next();
+            String cat  = rProduit.getString(1);
+            String titre  = rProduit.getString(2);
+            String etat  = rProduit.getString(3);
+            String etatprod  = rProduit.getString(4);
+            String prix = rProduit.getString(5);
+            String description = rProduit.getString(6);
+            String norue= rProduit.getString(7);
+            String nomrue = rProduit.getString(8);
+            String codePost = rProduit.getString(9);
+            String ville = rProduit.getString(10);
+
+            titre_afficher.setText(titre);
+            etatvente_afficher.setText(titre);
+            codepostal_afficher.setText(codePost);
+            ville_afficher.setText(ville);
+            norue_afficher.setText(norue);
+            etatvente_afficher.setText(etatprod);
+            condition_afficher.setText(etat);
+
+
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
@@ -98,45 +132,18 @@ public class VendeurController  implements Initializable {
             ObservableList<String> items = FXCollections.observableArrayList(nomProduit);
             list_produit_vendeur.setItems(items);
         }
-
         list_produit_vendeur.setOnMouseClicked(new EventHandler<MouseEvent>() {
-
             @Override
             public void handle(MouseEvent event) {
-                String ProduitId = listProduits.get( list_produit_vendeur.getSelectionModel().getSelectedIndex()).getId();
-
-                ResultSet rProduit = SQL.getProduitVendeur2(ProduitId);
-                try {
-                    rProduit.next();
-                    String cat  = rProduit.getString(1);
-                    String titre  = rProduit.getString(2);
-                    String etat  = rProduit.getString(3);
-                    String etatprod  = rProduit.getString(4);
-                    String prix = rProduit.getString(5);
-                    String description = rProduit.getString(6);
-                    String norue= rProduit.getString(7);
-                    String nomrue = rProduit.getString(8);
-                    String codePost = rProduit.getString(9);
-                    String ville = rProduit.getString(10);
-
-                    titre_afficher.setText(titre);
-                    etatvente_afficher.setText(titre);
-                    codepostal_afficher.setText(codePost);
-                    ville_afficher.setText(ville);
-                    norue_afficher.setText(norue);
-                    etatvente_afficher.setText(etatprod);
-                    condition_afficher.setText(etat);
-
-
-
-
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-
-
-
+                updateDescription();
             }
+        });
+        list_produit_vendeur.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent event) {
+            updateDescription();
+            }
+            
         });
 
     }
