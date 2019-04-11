@@ -78,6 +78,25 @@ public class SQLHelper {
      *
      * @return la liste des precedentes transactions si il y a lieu
      */
+
+    public ResultSet getProductCategorie(String nomCategorie){
+
+        ResultSet results = query("select id_prod,titre from produit where categorie = '" + nomCategorie + "' and etat_prod_vente='Affiche';");
+
+        return results;
+    }
+    public ResultSet getProductAffiche(){
+
+        ResultSet results = query("select id_prod,titre from produit where etat_prod_vente='Affiche';");
+
+        return results;
+    }
+    public ResultSet getProduitAfficheInfo(String idProduit) {
+
+        ResultSet results = query("select categorie,titre,etat,etat_prod_vente,description_produit,numRue,nomRue,codePost,ville from produit natural join ficheProduit where id_prod = '" + idProduit + "' and etat_prod_vente='Affiche';");
+
+        return results;
+    }
     public ResultSet getBuyerHistory(String username) {
         ResultSet results = query("SELECT nom_produit, prix_propose, annonceur_username, telephone, adresse_facturation FROM Produit INNER JOIN Usager ON annonceur_username = Usager.username INNER JOIN Annonceur ON annonceur_username = Annonceur.username INNER JOIN Offre ON Produit.id = Offre.id WHERE usernameAch='" + username + "' AND etat='vendu'");
 
