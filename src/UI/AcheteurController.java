@@ -44,18 +44,21 @@ public class AcheteurController implements Initializable {
     public TextField ville_ajouter;
     public Button button_ajouter_produit;
     public TextField prix_ajouter;
+    public boolean existe;
     // tab 3
 
     ArrayList<Produit> listProduits = new ArrayList();
     @FXML
     ListView<String> list_produit_vendeur = new ListView<String>();
-    public ArrayList<String> idProduit;
+    public ArrayList<Integer> idProduit;
     public ArrayList<String> nomProduit;
+    public ArrayList<String> nomCategorie;
 
 
     public ArrayList<String> getCategories() throws SQLException{
-        ArrayList<String> nomCategorie = new ArrayList<String>();
+       nomCategorie = new ArrayList<String>();
         ResultSet categories = SQL.getCategories();
+        nomCategorie.add("Tout");
         while (categories.next()) {
             nomCategorie.add(categories.getString("nom"));
         }
@@ -63,47 +66,69 @@ public class AcheteurController implements Initializable {
     }
 
 
-    public void getProduct(String cat) {
-        ArrayList<String> nomCategorie = new ArrayList<String>();
-        ResultSet categories = SQL.getProductCategorie(cat);
-        idProduit = new ArrayList<String>();
-        nomProduit = new ArrayList<String>();
+    public boolean getProduct(String cat) {
+        if(cat.equals("Tout")){
+            getProductnonCategorie();
+        }
+        else{
 
-        while (true) {
+        ArrayList<String> nomCategorie = new ArrayList<String>();
+        ResultSet produit = SQL.getProductCategorie(cat);
+        if(produit != null){
             try {
-                while (categories.next()) {
-                    idProduit.add(categories.getString("id_prod"));
-                    nomProduit.add(categories.getString("titre"));
+                if(produit.next()){
+                    existe = true;
+                    idProduit = new ArrayList<Integer>();
+                    nomProduit = new ArrayList<String>();
+                    idProduit.add(produit.getInt(1));
+                    nomProduit.add(produit.getString(2));
+                    while (produit.next()) {
+                        idProduit.add(produit.getInt(1));
+                        nomProduit.add(produit.getString(2));
+                    }
                 }
+                else{
+                    existe = false;
+                }
+
             } catch (SQLException e) {
                 e.printStackTrace();
-            }
+            }}
 
-
-        }
+    }
+        return existe;
     }
     public void getProductnonCategorie() {
-        ResultSet produit = SQL.getProductAffiche();
-        idProduit = new ArrayList<String>();
+        existe = true;
+        idProduit = new ArrayList<Integer>();
         nomProduit = new ArrayList<String>();
+        ResultSet produit = SQL.getProductAffiche();
 
-        while (true) {
             try {
                 while (produit.next()) {
-                    idProduit.add(produit.getString("id_prod"));
-                    nomProduit.add(produit.getString("titre"));
+                    idProduit.add(produit.getInt(1));
+                    nomProduit.add(produit.getString(2));
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
             }
 
 
-        }
+
+    }
+    public void viderText(){
+        titre_afficher.setText("");
+        etatvente_afficher.setText("");
+        codepostal_afficher.setText("");
+        ville_afficher.setText("");
+        norue_afficher.setText("");
+        etatvente_afficher.setText("");
+        condition_afficher.setText("");
     }
     public void updateDescription(){
-        String ProduitId = idProduit.get( list_produit_vendeur.getSelectionModel().getSelectedIndex());
+        Integer ProduitId = idProduit.get( list_produit_vendeur.getSelectionModel().getSelectedIndex());
 
-        ResultSet rProduit = SQL.getProduitVendeur2(ProduitId);
+        ResultSet rProduit = SQL.getProduitVendeur2(ProduitId.toString());
         try {
             rProduit.next();
             String cat  = rProduit.getString(1);
@@ -136,27 +161,61 @@ public class AcheteurController implements Initializable {
 
         list_produit_vendeur.setItems(FXCollections.observableArrayList(nomProduit));
 
-        updateDescription();
+       // updateDescription();
+    }
+    public void afficherNomProduit(){
+        if (nomProduit.size() != 0) {
+            ObservableList<String> items = FXCollections.observableArrayList(nomProduit);
+            list_produit_vendeur.setItems(items);
+        }
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
+        try {
+            ArrayList<String> nomCategorie= this.getCategories();
+            categorie_ajouter.setItems(FXCollections.observableArrayList(nomCategorie));
+            categorie_ajouter.setValue(nomCategorie.get(0));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
 
+        getProductnonCategorie();
+
+        afficherNomProduit();
 
         list_produit_vendeur.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                updateDescription();
+                if(existe)
+                    updateDescription();
             }
         });
         list_produit_vendeur.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {
-            updateDescription();
+                if(existe)
+                    updateDescription();
             }
 
+        });
+        categorie_ajouter.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observableValue, Number number, Number number2) {
+                viderText();
+                String categorie = categorie_ajouter.getItems().get((Integer) number2).toString();
+                boolean existe = getProduct(categorie);
+                if(existe){
+                    afficherNomProduit();
+                }else{
+                        list_produit_vendeur.getItems().clear();
+                        list_produit_vendeur.getItems().add("Aucun produit en vente");
+                }
+
+
+            }
         });
 
     }
@@ -167,32 +226,7 @@ public class AcheteurController implements Initializable {
         System.out.println("yo");
     }
 
-    public void  ajouterProduit(){
-        String boutique = User.boutique;
-        String titre = titre_ajouter.getText();
-        String categorie = categorie_ajouter.getValue().toString();
-        String condition = condition_ajouter.getValue().toString();
-        String description= description_ajouter.getText();
-        String norue = norue_ajouter.getText();
-        String nomrue = nomrue_ajouter.getText();
-        String codepostal= codepostal_ajouter.getText();
-        String ville = ville_ajouter.getText();
-        String prix = prix_ajouter.getText();
 
-        System.out.println(boutique+titre+categorie+condition+description+norue+nomrue+codepostal+ville+prix);
-
-        SQL.ajouterProduitVendeur(boutique,categorie,titre,prix,condition,description,norue,nomrue,codepostal,ville);
-
-
-    }
-
-    public void initListProduit(ResultSet produit) throws SQLException {
-
-        while (produit.next()) {
-            Produit produit1 = new Produit(produit.getString(1), produit.getString(2));
-            listProduits.add(produit1);
-        }
-    }
 }
 
 
