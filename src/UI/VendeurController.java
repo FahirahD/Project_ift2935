@@ -150,7 +150,7 @@ public class VendeurController  implements Initializable {
             public void handle(KeyEvent event) {
             updateDescription();
             }
-            
+
         });
 
     }
