@@ -29,8 +29,8 @@ public class LoginController implements Initializable {
         user_type.setItems(FXCollections.observableArrayList(st));
         user_type.setValue("Acheteur");
 
-        email_field.setText("dolor@necmollisvitae.edu");
-        password_field.setText("EKB18SWI3BM");
+        email_field.setText("test@test.com");
+        password_field.setText("test");
 
 
     }
@@ -48,7 +48,16 @@ public class LoginController implements Initializable {
             User.email=email;
             User.password=password;
             System.out.println("debut");
-            Parent home_page_parent = FXMLLoader.load(getClass().getResource("vendeur.fxml"));
+
+            Parent home_page_parent = null ;
+
+
+
+            home_page_parent = FXMLLoader.load(getClass().getResource("acheteur.fxml"));
+
+
+
+
 
             Scene home_page_scene = new Scene(home_page_parent);
             Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();

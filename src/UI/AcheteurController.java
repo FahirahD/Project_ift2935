@@ -1,23 +1,19 @@
 package UI;
+
+import SQL.SQLHelper;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import org.postgresql.util.PSQLException;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
+import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
-import utils.User;
-import SQL.SQLHelper;
-import javafx.collections.FXCollections;
-import javafx.fxml.Initializable;
 import utils.Produit;
+import utils.User;
 
 import java.io.IOException;
 import java.net.URL;
@@ -26,7 +22,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-public class VendeurController  implements Initializable {
+public class AcheteurController implements Initializable {
 
     public SQLHelper SQL = new SQLHelper();
     //tab 1
@@ -53,7 +49,9 @@ public class VendeurController  implements Initializable {
     ArrayList<Produit> listProduits = new ArrayList();
     @FXML
     ListView<String> list_produit_vendeur = new ListView<String>();
-    
+    public ArrayList<String> idProduit;
+    public ArrayList<String> nomProduit;
+
 
     public ArrayList<String> getCategories() throws SQLException{
         ArrayList<String> nomCategorie = new ArrayList<String>();
@@ -64,8 +62,46 @@ public class VendeurController  implements Initializable {
         return nomCategorie;
     }
 
+
+    public void getProduct(String cat) {
+        ArrayList<String> nomCategorie = new ArrayList<String>();
+        ResultSet categories = SQL.getProductCategorie(cat);
+        idProduit = new ArrayList<String>();
+        nomProduit = new ArrayList<String>();
+
+        while (true) {
+            try {
+                while (categories.next()) {
+                    idProduit.add(categories.getString("id_prod"));
+                    nomProduit.add(categories.getString("titre"));
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+
+        }
+    }
+    public void getProductnonCategorie() {
+        ResultSet produit = SQL.getProductAffiche();
+        idProduit = new ArrayList<String>();
+        nomProduit = new ArrayList<String>();
+
+        while (true) {
+            try {
+                while (produit.next()) {
+                    idProduit.add(produit.getString("id_prod"));
+                    nomProduit.add(produit.getString("titre"));
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+
+        }
+    }
     public void updateDescription(){
-        String ProduitId = listProduits.get( list_produit_vendeur.getSelectionModel().getSelectedIndex()).getId();
+        String ProduitId = idProduit.get( list_produit_vendeur.getSelectionModel().getSelectedIndex());
 
         ResultSet rProduit = SQL.getProduitVendeur2(ProduitId);
         try {
@@ -88,54 +124,27 @@ public class VendeurController  implements Initializable {
             norue_afficher.setText(norue);
             etatvente_afficher.setText(etatprod);
             condition_afficher.setText(etat);
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
     }
 
+    public void change_cat(){
+
+        getProduct(categorie_ajouter.getValue().toString());
+
+        list_produit_vendeur.setItems(FXCollections.observableArrayList(nomProduit));
+
+        updateDescription();
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        //init the choice boxes
-        String st[] = { "neuf", "occasion"};
-        condition_ajouter.setItems(FXCollections.observableArrayList(st));
-        condition_ajouter.setValue("neuf");
-
-        try {
-            ArrayList<String> nomCategorie= this.getCategories();
-            categorie_ajouter.setItems(FXCollections.observableArrayList(nomCategorie));
-            categorie_ajouter.setValue(nomCategorie.get(0));
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
 
 
 
-        ResultSet result = SQL.getBoutique(User.email);
-        try {
-            result.next();
-            User.boutique = result.getString(1);
-
-            System.out.println(User.boutique);
-
-            ResultSet resultProduit = SQL.getProduitVendeur(User.boutique);
-            initListProduit(resultProduit);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        String[] nomProduit = new String[listProduits.size()];
-
-        for (int i = 0; i < listProduits.size(); i++) {
-            nomProduit[i] = listProduits.get(i).getTitre();
-        }
-        System.out.println(nomProduit[0]);
-        if (listProduits.size() != 0) {
-            ObservableList<String> items = FXCollections.observableArrayList(nomProduit);
-            list_produit_vendeur.setItems(items);
-        }
         list_produit_vendeur.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
@@ -158,7 +167,7 @@ public class VendeurController  implements Initializable {
         System.out.println("yo");
     }
 
-    public void  ajouterProduit() throws IOException , PSQLException {
+    public void  ajouterProduit(){
         String boutique = User.boutique;
         String titre = titre_ajouter.getText();
         String categorie = categorie_ajouter.getValue().toString();
@@ -172,16 +181,7 @@ public class VendeurController  implements Initializable {
 
         System.out.println(boutique+titre+categorie+condition+description+norue+nomrue+codepostal+ville+prix);
 
-        SQL.ajouterProduitVendeur(boutique, categorie, titre, prix, condition, description, norue, nomrue, codepostal, ville);
-        Parent expert_parent = FXMLLoader.load(getClass().getResource("expert.fxml"));
-
-        Scene estimation_scene = new Scene(expert_parent);
-        Stage estimationStage = new Stage();
-
-        estimationStage.hide();
-        estimationStage.setScene(estimation_scene);
-        estimationStage.initModality(Modality.APPLICATION_MODAL);
-        estimationStage.show();
+        SQL.ajouterProduitVendeur(boutique,categorie,titre,prix,condition,description,norue,nomrue,codepostal,ville);
 
 
     }
@@ -193,7 +193,6 @@ public class VendeurController  implements Initializable {
             listProduits.add(produit1);
         }
     }
-
 }
 
 
