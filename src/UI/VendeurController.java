@@ -90,8 +90,7 @@ public class VendeurController  implements Initializable {
 
 
 
-    public void updateDescription(){
-        String ProduitId = listProduits.get( list_produit_vendeur.getSelectionModel().getSelectedIndex()).getId();
+    public void updateDescription( String ProduitId){
 
         ResultSet rProduit = SQL.getProduitVendeur2(ProduitId);
         try {
@@ -103,7 +102,7 @@ public class VendeurController  implements Initializable {
             String prix = rProduit.getString(5);
             String description = rProduit.getString(6);
             String norue= rProduit.getString(7);
-            String nomrue = rProduit.getString(8);
+            String adresse = rProduit.getString(8);
             String codePost = rProduit.getString(9);
             String ville = rProduit.getString(10);
 
@@ -114,6 +113,7 @@ public class VendeurController  implements Initializable {
             norue_afficher.setText(norue);
             etatvente_afficher.setText(etatprod);
             condition_afficher.setText(etat);
+            adresse_afficher.setText(adresse);
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -160,20 +160,31 @@ public class VendeurController  implements Initializable {
         if (listProduits.size() != 0) {
             ObservableList<String> items = FXCollections.observableArrayList(nomProduit);
             list_produit_vendeur.setItems(items);
+            String produitId = listProduits.get(0).getId();
+            updateDescription(produitId);
+
         }
+
         list_produit_vendeur.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                updateDescription();
+                String ProduitId = listProduits.get( list_produit_vendeur.getSelectionModel().getSelectedIndex()).getId();
+                updateDescription(ProduitId);
             }
         });
         list_produit_vendeur.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {
-            updateDescription();
+                String ProduitId = listProduits.get( list_produit_vendeur.getSelectionModel().getSelectedIndex()).getId();
+                 updateDescription(ProduitId);
             }
 
         });
+
+        if (listProduits.size()!= 0){
+            list_produit_vendeur.getSelectionModel().select(1);
+            list_produit_vendeur.getFocusModel().focus(1);
+        }
 
     }
 
