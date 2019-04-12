@@ -3,7 +3,6 @@ import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -47,7 +46,8 @@ public class VendeurController  implements Initializable {
     public TextField ville_ajouter;
     public Button button_ajouter_produit;
     public TextField prix_ajouter;
-    public Label labelErreurEstimation;
+    public Label labelErreurInsertion;
+
     // tab 3
 
     ArrayList<Produit> listProduits = new ArrayList();
@@ -131,7 +131,6 @@ public class VendeurController  implements Initializable {
         for (int i = 0; i < listProduits.size(); i++) {
             nomProduit[i] = listProduits.get(i).getTitre();
         }
-        System.out.println(nomProduit[0]);
         if (listProduits.size() != 0) {
             ObservableList<String> items = FXCollections.observableArrayList(nomProduit);
             list_produit_vendeur.setItems(items);
@@ -185,7 +184,7 @@ public class VendeurController  implements Initializable {
         }
 
         catch (SQLException e) {
-            labelErreurEstimation.setText("Erreur");
+            labelErreurInsertion.setText("Erreur");
         }
 
 
