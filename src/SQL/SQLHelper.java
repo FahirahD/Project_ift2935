@@ -213,7 +213,7 @@ public class SQLHelper {
 
         return results;
     }
-    public void ajouterProduitVendeur(String idBoutique,String categorie,String titre , String prix_souhaite, String etat , String description , String noRue,String nomRue,String codePost , String ville) {
+    public void ajouterProduitVendeur(String idBoutique,String categorie,String titre , String prix_souhaite, String etat , String description , String noRue,String nomRue,String codePost , String ville) throws SQLException {
 
         ResultSet results = query(" select ajoutProduit('" + idBoutique + "','" + categorie + "','" + titre + "','" + prix_souhaite + "','" + etat + "','" + description + "','" + noRue + "','" + nomRue + "','" + codePost + "','" + ville + "');");
     }
