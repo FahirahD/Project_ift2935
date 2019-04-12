@@ -288,6 +288,8 @@ public class SQLHelper {
 
     }
 
+
+
     // Private helping methods /////////////////////////////////////////////////////////////////////////////////
 
     // Attempt connection to database

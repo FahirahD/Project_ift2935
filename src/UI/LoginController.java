@@ -29,8 +29,8 @@ public class LoginController implements Initializable {
         user_type.setItems(FXCollections.observableArrayList(st));
         user_type.setValue("Acheteur");
 
-        email_field.setText("test@test.com");
-        password_field.setText("test");
+        email_field.setText("quis.accumsan.convallis@nibhDonec.edu");
+        password_field.setText("GBQ31LRS2IL");
 
 
     }
@@ -52,10 +52,13 @@ public class LoginController implements Initializable {
             Parent home_page_parent = null ;
 
 
+            if(userType.equals("Acheteur")){
+                home_page_parent = FXMLLoader.load(getClass().getResource("acheteur.fxml"));
+            }
+            else {
+                home_page_parent = FXMLLoader.load(getClass().getResource("vendeur.fxml"));
 
-            home_page_parent = FXMLLoader.load(getClass().getResource("acheteur.fxml"));
-
-
+            }
 
 
 

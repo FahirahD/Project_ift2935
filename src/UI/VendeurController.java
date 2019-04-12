@@ -158,6 +158,7 @@ public class VendeurController  implements Initializable {
     }
 
     public void  ajouterProduit() throws IOException {
+        labelErreurInsertion.setText("");
         String boutique = User.boutique;
         String titre = titre_ajouter.getText();
         String categorie = categorie_ajouter.getValue().toString();
