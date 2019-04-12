@@ -24,6 +24,5 @@
             <Label fx:id="invalid_label" layoutX="163.0" layoutY="406.0" prefHeight="17.0" prefWidth="177.0" textFill="#ff7474" />
          </children>
       </AnchorPane>
-      <Label text="Label" />
    </children>
 </AnchorPane>
