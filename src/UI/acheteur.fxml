@@ -52,9 +52,9 @@
                            </font>
                         </Label>
                         <CheckBox fx:id="afficheNego" layoutX="61.0" layoutY="14.0" mnemonicParsing="false" text="Negociation" />
-                        <Text fx:id="offre_ouvert" layoutX="249.0" layoutY="292.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Offre ouvert" />
-                        <Text fx:id="offre_accepte" layoutX="249.0" layoutY="316.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Offre Accepté" />
-                        <Text fx:id="offre_rejete" layoutX="251.0" layoutY="343.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Offre rejeté" />
+                        <Text fx:id="offre_ouvert" layoutX="268.0" layoutY="290.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Offre ouvert" />
+                        <Text fx:id="offre_accepte" layoutX="268.0" layoutY="308.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Offre Accepté" />
+                        <Text fx:id="offre_rejete" layoutX="268.0" layoutY="327.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Offre rejeté" />
                         <Text fx:id="offre_ouvert1" layoutX="335.0" layoutY="292.0" strokeType="OUTSIDE" strokeWidth="0.0" />
                         <Text fx:id="offre_rejete1" layoutX="336.0" layoutY="343.0" strokeType="OUTSIDE" strokeWidth="0.0" />
                         <Text fx:id="offre_accepte1" layoutX="345.0" layoutY="316.0" strokeType="OUTSIDE" strokeWidth="0.0" />
@@ -80,4 +80,7 @@
         </tabs>
       </TabPane>
    </center>
+   <bottom>
+      <Button fx:id="button_deconnecter" onAction="#deconnection" mnemonicParsing="false" text="se déconnecter" BorderPane.alignment="CENTER" />
+   </bottom>
 </BorderPane>

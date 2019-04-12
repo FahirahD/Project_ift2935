@@ -2,7 +2,6 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
-<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
@@ -53,7 +52,7 @@
                         <Text layoutX="41.0" layoutY="102.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Catégorie :" />
                         <Text layoutX="39.0" layoutY="145.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Condition : " />
                         <Text layoutX="27.0" layoutY="219.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Description:" />
-                        <TextArea fx:id="description_ajouter" layoutX="118.0" layoutY="207.0" prefHeight="118.0" prefWidth="142.0" />
+                        <TextArea fx:id="description_ajouter" layoutX="118.0" layoutY="207.0" prefHeight="86.0" prefWidth="146.0" />
                         <Text layoutX="292.0" layoutY="54.0" strokeType="OUTSIDE" strokeWidth="0.0" text="No rue :" />
                         <TextField fx:id="norue_ajouter" layoutX="373.0" layoutY="40.0" prefHeight="26.0" prefWidth="144.0" />
                         <Text layoutX="287.0" layoutY="94.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nom de rue :" />
@@ -67,7 +66,6 @@
                         <Text layoutX="34.0" layoutY="185.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Prix souhaité" />
                         <TextField fx:id="prix_ajouter" layoutX="125.0" layoutY="167.0" prefHeight="26.0" prefWidth="127.0" />
                         <ChoiceBox fx:id="categorie_ajouter" layoutX="128.0" layoutY="84.0" prefHeight="28.0" prefWidth="119.0" />
-                        <Label fx:id="labelErreurInsertion" layoutX="411.0" layoutY="266.0" textFill="RED" />
                      </children>
                   </AnchorPane>
             </content>
@@ -80,4 +78,7 @@
         </tabs>
       </TabPane>
    </center>
+   <bottom>
+      <Button fx:id="button_deconnecter" onAction="#deconnection" mnemonicParsing="false" text="se déconnecter" BorderPane.alignment="CENTER" />
+   </bottom>
 </BorderPane>

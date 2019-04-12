@@ -10,6 +10,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -63,6 +64,25 @@ public class AcheteurController implements Initializable {
     public ArrayList<String> nomCategorie;
 
 
+    public void deconnection( javafx.event.ActionEvent event){
+
+        Parent loginPage = null ;
+
+
+        try {
+            loginPage = FXMLLoader.load(getClass().getResource("login.fxml"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Scene home_page_scene = new Scene(loginPage);
+        Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+        app_stage.hide();
+        app_stage.setScene(home_page_scene);
+        System.out.println("fin");
+        app_stage.show();
+
+    }
     public ArrayList<String> getCategories() throws SQLException{
        nomCategorie = new ArrayList<String>();
         ResultSet categories = SQL.getCategories();

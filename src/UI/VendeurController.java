@@ -3,6 +3,7 @@ import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -50,7 +51,7 @@ public class VendeurController  implements Initializable {
     public static String idProdAEstime;
 
 
-    // tab 3
+    public  Button button_deconnecter;
 
     ArrayList<Produit> listProduits = new ArrayList();
     @FXML
@@ -65,6 +66,28 @@ public class VendeurController  implements Initializable {
         }
         return nomCategorie;
     }
+
+    public void deconnection( javafx.event.ActionEvent event){
+
+        Parent loginPage = null ;
+
+
+        try {
+            loginPage = FXMLLoader.load(getClass().getResource("login.fxml"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Scene home_page_scene = new Scene(loginPage);
+        Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+        app_stage.hide();
+        app_stage.setScene(home_page_scene);
+        System.out.println("fin");
+        app_stage.show();
+
+    }
+
+
 
     public void updateDescription(){
         String ProduitId = listProduits.get( list_produit_vendeur.getSelectionModel().getSelectedIndex()).getId();
