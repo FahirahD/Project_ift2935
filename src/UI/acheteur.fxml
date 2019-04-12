@@ -42,7 +42,7 @@
                               <Text fx:id="description_achet" layoutX="87.0" layoutY="175.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="151.18323707580566" />
                            </children>
                         </Pane>
-                        <Button fx:id="offre_boutton" layoutX="483.0" layoutY="243.0" mnemonicParsing="false" text="Envoyer" />
+                        <Button fx:id="offre_boutton" layoutX="483.0" layoutY="243.0" mnemonicParsing="false" text="Négocier" />
                         <Text fx:id="textprix" layoutX="325.0" layoutY="261.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Prix:" />
                         <TextField fx:id="offre_prix" layoutX="361.0" layoutY="243.0" prefHeight="26.0" prefWidth="98.0" />
                         <Text fx:id="reponse_message" layoutX="361.0" layoutY="335.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="111.7366943359375" />
@@ -81,6 +81,6 @@
       </TabPane>
    </center>
    <bottom>
-      <Button fx:id="button_deconnecter" onAction="#deconnection" mnemonicParsing="false" text="se déconnecter" BorderPane.alignment="CENTER" />
+      <Button fx:id="button_deconnecter" mnemonicParsing="false" onAction="#deconnection" text="se déconnecter" BorderPane.alignment="CENTER" />
    </bottom>
 </BorderPane>

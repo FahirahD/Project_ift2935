@@ -8,21 +8,17 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="736.0" prefWidth="1071.0" style="-fx-background-color: #4169E1;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UI.LoginController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UI.LoginController">
    <children>
-      <AnchorPane layoutX="179.0" layoutY="118.0" opacity="0.44" prefHeight="461.0" prefWidth="542.0" style="-fx-background-color: #00008B;">
-         <children>
-            <Label layoutX="167.0" layoutY="75.0" prefHeight="68.0" prefWidth="238.0" text="Connexion" textFill="WHITE">
-               <font>
-                  <Font size="46.0" />
-               </font>
-            </Label>
-            <TextField fx:id="email_field" layoutX="118.0" layoutY="176.0" prefHeight="40.0" prefWidth="267.0" promptText="Email" />
-            <PasswordField fx:id="password_field" layoutX="116.0" layoutY="264.0" prefHeight="40.0" prefWidth="267.0" promptText="mot de passe" />
-            <Button fx:id="submit_button" layoutX="172.0" layoutY="353.0" mnemonicParsing="false" onAction="#login" prefHeight="26.0" prefWidth="156.0" text="Ouvrir une session" />
-            <ChoiceBox fx:id="user_type" layoutX="415.0" layoutY="271.0" prefHeight="26.0" prefWidth="92.0" />
-            <Label fx:id="invalid_label" layoutX="163.0" layoutY="406.0" prefHeight="17.0" prefWidth="177.0" textFill="#ff7474" />
-         </children>
-      </AnchorPane>
+      <TextField fx:id="email_field" layoutX="160.0" layoutY="160.0" prefHeight="40.0" prefWidth="267.0" promptText="Email" />
+      <PasswordField fx:id="password_field" layoutX="160.0" layoutY="230.0" prefHeight="40.0" prefWidth="267.0" promptText="mot de passe" />
+      <Label layoutX="181.0" layoutY="42.0" prefHeight="68.0" prefWidth="238.0" text="Connexion">
+         <font>
+            <Font size="46.0" />
+         </font>
+      </Label>
+      <ChoiceBox fx:id="user_type" layoutX="467.0" layoutY="160.0" prefHeight="26.0" prefWidth="92.0" />
+      <Label fx:id="invalid_label" layoutX="190.0" layoutY="344.0" prefHeight="17.0" prefWidth="177.0" textFill="#ff7474" />
+      <Button fx:id="submit_button" layoutX="201.0" layoutY="309.0" mnemonicParsing="false" onAction="#login" prefHeight="26.0" prefWidth="156.0" text="Ouvrir une session" />
    </children>
 </AnchorPane>
