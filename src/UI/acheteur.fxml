@@ -16,65 +16,65 @@
 <?import javafx.scene.text.Text?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UI.AcheteurController">
-    <center>
-        <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
-            <tabs>
-                <Tab text="Afficher Produit">
-                    <content>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                            <children>
-                                <ListView fx:id="list_produit_vendeur" layoutX="29.0" layoutY="42.0" prefHeight="186.0" prefWidth="252.0" />
-                                <Text layoutX="50.0" layoutY="261.0" strokeType="OUTSIDE" strokeWidth="0.0" text="CatÃ©gorie :" />
-                                <ChoiceBox fx:id="categorie_ajouter" layoutX="116.0" layoutY="243.0" onInputMethodTextChanged="#change_cat" prefHeight="28.0" prefWidth="119.0" />
-                                <Pane layoutX="313.0" layoutY="15.0" prefHeight="215.0" prefWidth="278.0">
-                                    <children>
-                                        <Text layoutX="10.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Boutique:" wrappingWidth="55.58310890197754" />
-                                        <Text layoutX="10.0" layoutY="48.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Titre:" wrappingWidth="34.78312110900879" />
-                                        <Text layoutX="10.0" layoutY="83.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Condition:" wrappingWidth="65.78312110900879" />
-                                        <Text layoutX="10.0" layoutY="113.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Adresse: " />
-                                        <Text layoutX="10.0" layoutY="175.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Description:" />
-                                        <Text fx:id="boutique_achet" layoutX="87.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="174.38306617736816" />
-                                        <Text fx:id="titre_achet" layoutX="87.0" layoutY="48.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="168.4288330078125" />
-                                        <Text fx:id="condition_achet" layoutX="87.0" layoutY="83.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="140.7831516265869" />
-                                        <Text fx:id="adresse_achet" layoutX="87.0" layoutY="113.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="189.5830783843994" />
-                                        <Text fx:id="adresse_achet2" layoutX="87.0" layoutY="145.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="188.7831516265869" />
-                                        <Text fx:id="description_achet" layoutX="87.0" layoutY="175.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="151.18323707580566" />
-                                    </children>
-                                </Pane>
-                                <Button fx:id="offre_boutton" layoutX="483.0" layoutY="243.0" mnemonicParsing="false" text="Nigga" />
-                                <Text fx:id="textprix" layoutX="325.0" layoutY="261.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Prix:" />
-                                <TextField fx:id="offre_prix" layoutX="361.0" layoutY="243.0" prefHeight="26.0" prefWidth="98.0" />
-                                <Text fx:id="reponse_message" layoutX="361.0" layoutY="335.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="111.7366943359375" />
-                                <Label fx:id="offre_confirmation" layoutX="361.0" layoutY="314.0" textFill="#f50a0a">
-                                    <font>
-                                        <Font name="System Bold Italic" size="12.0" />
-                                    </font>
-                                </Label>
-                                <CheckBox fx:id="afficheNego" layoutX="61.0" layoutY="14.0" mnemonicParsing="false" text="Negociation" />
-                                <Text fx:id="offre_ouvert" layoutX="268.0" layoutY="290.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Offre ouvert" />
-                                <Text fx:id="offre_accepte" layoutX="268.0" layoutY="308.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Offre AcceptÃ©" />
-                                <Text fx:id="offre_rejete" layoutX="268.0" layoutY="327.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Offre rejetÃ©" />
-                                <Text fx:id="offre_ouvert1" layoutX="335.0" layoutY="292.0" strokeType="OUTSIDE" strokeWidth="0.0" />
-                                <Text fx:id="offre_rejete1" layoutX="336.0" layoutY="343.0" strokeType="OUTSIDE" strokeWidth="0.0" />
-                                <Text fx:id="offre_accepte1" layoutX="345.0" layoutY="316.0" strokeType="OUTSIDE" strokeWidth="0.0" />
-                            </children>
-                        </AnchorPane>
-                    </content>
-                </Tab>
-                <Tab text="Requette">
-                    <content>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                            <children>
-                                <ChoiceBox fx:id="requetBox" layoutX="60.0" layoutY="1.0" prefHeight="11.0" prefWidth="479.0" />
-                                <TableView fx:id="tableview" layoutX="14.0" layoutY="34.0" prefHeight="328.0" prefWidth="581.0" />
-                            </children>
-                        </AnchorPane>
-                    </content>
-                </Tab>
-            </tabs>
-        </TabPane>
-    </center>
-    <bottom>
-        <Button fx:id="button_deconnecter" mnemonicParsing="false" onAction="#deconnection" text="se dÃ©connecter" BorderPane.alignment="CENTER" />
-    </bottom>
+   <center>
+      <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+        <tabs>
+          <Tab text="Afficher Produit">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <ListView fx:id="list_produit_vendeur" layoutX="29.0" layoutY="42.0" prefHeight="186.0" prefWidth="252.0" />
+                        <Text layoutX="50.0" layoutY="261.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Catégorie :" />
+                        <ChoiceBox fx:id="categorie_ajouter" layoutX="116.0" layoutY="243.0" onInputMethodTextChanged="#change_cat" prefHeight="28.0" prefWidth="119.0" />
+                        <Pane layoutX="313.0" layoutY="15.0" prefHeight="215.0" prefWidth="278.0">
+                           <children>
+                              <Text layoutX="10.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Boutique:" wrappingWidth="55.58310890197754" />
+                              <Text layoutX="10.0" layoutY="48.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Titre:" wrappingWidth="34.78312110900879" />
+                              <Text layoutX="10.0" layoutY="83.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Condition:" wrappingWidth="65.78312110900879" />
+                              <Text layoutX="10.0" layoutY="113.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Adresse: " />
+                              <Text layoutX="10.0" layoutY="175.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Description:" />
+                              <Text fx:id="boutique_achet" layoutX="87.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="174.38306617736816" />
+                              <Text fx:id="titre_achet" layoutX="87.0" layoutY="48.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="168.4288330078125" />
+                              <Text fx:id="condition_achet" layoutX="87.0" layoutY="83.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="140.7831516265869" />
+                              <Text fx:id="adresse_achet" layoutX="87.0" layoutY="113.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="189.5830783843994" />
+                              <Text fx:id="adresse_achet2" layoutX="87.0" layoutY="145.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="188.7831516265869" />
+                              <Text fx:id="description_achet" layoutX="87.0" layoutY="175.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="151.18323707580566" />
+                           </children>
+                        </Pane>
+                        <Button fx:id="offre_boutton" layoutX="483.0" layoutY="243.0" mnemonicParsing="false" text="Nigga" />
+                        <Text fx:id="textprix" layoutX="325.0" layoutY="261.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Prix:" />
+                        <TextField fx:id="offre_prix" layoutX="361.0" layoutY="243.0" prefHeight="26.0" prefWidth="98.0" />
+                        <Text fx:id="reponse_message" layoutX="361.0" layoutY="335.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="111.7366943359375" />
+                        <Label fx:id="offre_confirmation" layoutX="361.0" layoutY="314.0" textFill="#f50a0a">
+                           <font>
+                              <Font name="System Bold Italic" size="12.0" />
+                           </font>
+                        </Label>
+                        <CheckBox fx:id="afficheNego" layoutX="61.0" layoutY="14.0" mnemonicParsing="false" text="Negociation" />
+                        <Text fx:id="offre_ouvert" layoutX="268.0" layoutY="290.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Offre ouvert" />
+                        <Text fx:id="offre_accepte" layoutX="268.0" layoutY="308.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Offre Accepté" />
+                        <Text fx:id="offre_rejete" layoutX="268.0" layoutY="327.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Offre rejeté" />
+                        <Text fx:id="offre_ouvert1" layoutX="335.0" layoutY="292.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+                        <Text fx:id="offre_rejete1" layoutX="336.0" layoutY="343.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+                        <Text fx:id="offre_accepte1" layoutX="345.0" layoutY="316.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+            <Tab text="Requette">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <ChoiceBox fx:id="requetBox" layoutX="60.0" layoutY="1.0" prefHeight="11.0" prefWidth="479.0" />
+                        <TableView fx:id="tableview" layoutX="14.0" layoutY="29.0" prefHeight="317.0" prefWidth="582.0" />
+                     </children>
+                  </AnchorPane>
+              </content>
+            </Tab>
+        </tabs>
+      </TabPane>
+   </center>
+   <bottom>
+      <Button fx:id="button_deconnecter" mnemonicParsing="false" onAction="#deconnection" text="se déconnecter" BorderPane.alignment="CENTER" />
+   </bottom>
 </BorderPane>

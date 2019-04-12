@@ -66,16 +66,19 @@ public class AcheteurController implements Initializable {
     public boolean affiche_nego_active;
     private ObservableList<ObservableList> data;
     public  TableView tableview;
+    public ChoiceBox requetBox;
+
 
     // tab 3
 
-    ArrayList<Produit> listProduits = new ArrayList();
+   // ArrayList<Produit> listProduits = new ArrayList();
     @FXML
     ListView<String> list_produit_vendeur = new ListView<String>();
     public ArrayList<Integer> idProduit;
     public ArrayList<String> nomProduit;
     public ArrayList<String> nomCategorie;
-    private Object ResultTableModel;
+    public ArrayList<String> requette1;
+    //private Object ResultTableModel;
 
 
     public void deconnection( javafx.event.ActionEvent event){
@@ -98,7 +101,7 @@ public class AcheteurController implements Initializable {
 
     }
     public ArrayList<String> getCategories() throws SQLException{
-        nomCategorie = new ArrayList<String>();
+       nomCategorie = new ArrayList<String>();
         ResultSet categories = SQL.getCategories();
         nomCategorie.add("Tout");
         while (categories.next()) {
@@ -107,42 +110,60 @@ public class AcheteurController implements Initializable {
         return nomCategorie;
     }
 
+    public void remplirRequetteBox(){
+        requette1 = new ArrayList<String>();
+        requette1.add("Nom, prenom, courriel de l’acheteur dont le produit achete proviens de la ville ('Florenceville') et de la catégorie ('Telephones')");
+        requette1.add("courriel de tous les experts ayant estime les produits de l’utilisateur'placerat@lacinia.co.uk'");
+        requette1.add("5 plus grands vendeurs sur la plateforme (par nb de ventes ventes) de la ville'Florenceville'\n" +
+                "de la derniere annee (a partir de la date actuelle)");
+        requette1.add("courriel du vendeur ou tous les produits qui ont ete vendus se trouvaient a Florenceville");
+        requette1.add("l'historique des estimations de tous les produits evalues et leur decision, avec leur prix de vente si il y a lieu");
+        requette1.add("retournant l'historique des ventes d'un vendeur specifie");
+        requette1.add("liste des produits de la categorie specifiee et dont le prix est inferieur a 10");
+        requette1.add("retournant les produits en estimé par l'expert specife");
+        requette1.add("retournant les produits en achetes de l'acheteur specife");
+        requette1.add("tous les produits en vente de la boutique specifee");
+        requetBox.setItems(FXCollections.observableArrayList(requette1));
+        //requetBox.setValue(nomCategorie.get(0));
 
+
+
+    }
     public boolean getProduct(String cat) {
         if(cat.equals("Tout") || cat.isEmpty()){
             getProductnonCategorie();
         }
         else{
 
-            ArrayList<String> nomCategorie = new ArrayList<String>();
-            ResultSet produit;
-            if(affiche_nego_active)
-                produit = SQL.getProductCategorieNego(cat,User.email);
-            else
-                produit = SQL.getProductCategorie(cat,User.email);
+        ArrayList<String> nomCategorie = new ArrayList<String>();
+        ResultSet produit;
+        if(affiche_nego_active)
+            produit = SQL.getProductCategorieNego(cat,User.email);
+        else
+            produit = SQL.getProductCategorie(cat,User.email);
 
-            if(produit != null){
-                try {
-                    if(produit.next()){
-                        existe = true;
-                        idProduit = new ArrayList<Integer>();
-                        nomProduit = new ArrayList<String>();
+        if(produit != null){
+            try {
+                if(produit.next()){
+                    existe = true;
+                    idProduit = new ArrayList<Integer>();
+                    nomProduit = new ArrayList<String>();
+                    idProduit.add(produit.getInt(1));
+                    nomProduit.add(produit.getString(2));
+                    while (produit.next()) {
                         idProduit.add(produit.getInt(1));
                         nomProduit.add(produit.getString(2));
-                        while (produit.next()) {
-                            idProduit.add(produit.getInt(1));
-                            nomProduit.add(produit.getString(2));
-                        }
                     }
-                    else{
-                        existe = false;
-                    }
+                }
+                else{
+                    existe = false;
+                }
 
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }}
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }}
 
-        }
+    }
         return existe;
     }
     public void getProductnonCategorie() {
@@ -156,14 +177,14 @@ public class AcheteurController implements Initializable {
             produit = SQL.getProductAffiche(User.email);
 
 
-        try {
-            while (produit.next()) {
-                idProduit.add(produit.getInt(1));
-                nomProduit.add(produit.getString(2));
+            try {
+                while (produit.next()) {
+                    idProduit.add(produit.getInt(1));
+                    nomProduit.add(produit.getString(2));
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
 
 
 
@@ -171,10 +192,10 @@ public class AcheteurController implements Initializable {
     public void viderText(){
         boutique_achet.setText("");
         titre_achet.setText("");
-        condition_achet.setText("");
-        adresse_achet.setText("");
-        adresse_achet2.setText("");
-        description_achet.setText("");
+          condition_achet.setText("");
+          adresse_achet.setText("");
+          adresse_achet2.setText("");
+          description_achet.setText("");
 
     }
     public void updatePrix(Integer ProduitId){
@@ -193,10 +214,10 @@ public class AcheteurController implements Initializable {
                 if(etatoffre == null)
                     ouvert += prix;
                 else
-                if(etatoffre.equals("rejete"))
-                    rejete += prix + "; ";
-                else
-                    accepte += prix;
+                    if(etatoffre.equals("rejete"))
+                        rejete += prix + "; ";
+                    else
+                        accepte += prix;
 
             }
 
@@ -239,18 +260,18 @@ public class AcheteurController implements Initializable {
 
     }
     public void setTextView(boolean isNego){
-        textprix.setVisible(!isNego);
-        offre_prix.setVisible(!isNego);
-        offre_boutton.setVisible(!isNego);
-        offre_confirmation.setVisible(!isNego);
-        affiche_nego_active = isNego;
-        offre_ouvert.setVisible(isNego);
-        offre_rejete.setVisible(isNego);
-        offre_accepte.setVisible(isNego);
-        offre_accepte1.setVisible(isNego);
-        offre_ouvert1.setVisible(isNego);
-        offre_rejete1.setVisible(isNego);
-        ChangerAffichageProduit();
+            textprix.setVisible(!isNego);
+            offre_prix.setVisible(!isNego);
+            offre_boutton.setVisible(!isNego);
+            offre_confirmation.setVisible(!isNego);
+            affiche_nego_active = isNego;
+            offre_ouvert.setVisible(isNego);
+            offre_rejete.setVisible(isNego);
+            offre_accepte.setVisible(isNego);
+             offre_accepte1.setVisible(isNego);
+            offre_ouvert1.setVisible(isNego);
+            offre_rejete1.setVisible(isNego);
+            ChangerAffichageProduit();
     }
     public void change_cat(){
 
@@ -258,7 +279,7 @@ public class AcheteurController implements Initializable {
 
         list_produit_vendeur.setItems(FXCollections.observableArrayList(nomProduit));
 
-        // updateDescription();
+       // updateDescription();
     }
     public void afficherNomProduit(){
         if (nomProduit.size() != 0) {
@@ -272,7 +293,7 @@ public class AcheteurController implements Initializable {
         try {
             double value = Double.parseDouble(offre);
             if(value<0)
-                offre_confirmation.setText(value + " est negative");
+                   offre_confirmation.setText(value + " est negative");
             else {
                 Integer ProduitId = idProduit.get(list_produit_vendeur.getSelectionModel().getSelectedIndex());
                 ResultSet resultat = SQL.negocier(ProduitId.toString(), courriel, offre);
@@ -304,59 +325,16 @@ public class AcheteurController implements Initializable {
             list_produit_vendeur.getItems().add("Aucun produit en vente");
         }
     }
-    /**
-     public void afficher() throws SQLException {
-     String format = "%-15s%s%n";
-     String requet="";
-     String name ="";
-     ResultSet resultSet = SQL.requetteComplexe3();
-     ResultSetMetaData rsmd = resultSet.getMetaData();
-     int columnsNumber = rsmd.getColumnCount();
-     String[] names = new String[columnsNumber];
-     for (int i = 1; i <= columnsNumber; i++ ) {
-     name += rsmd.getColumnName(i) + format;
-     // Do stuff with name
-     }
-     while (resultSet.next()) {
-     for (int i = 1; i <= columnsNumber ; i++) {
-     String ss = resultSet.getString(i);
-     int ii = ss.length();
-     format = String.format("%1$"+ii+ "s", ss);
-     format += "\t \t";
-     //format =  String.format("%1$15s", resultSet.getString(i));
-     requet += format;
-     //names[j] = resultSet.getString(i);
-     }
-     ArrayList<TableColumn> listProduits = new ArrayList();
-     listProduits.
-     // for (int j=0;  j<names.length; j++) {
-     //   requet =
-     // requet += requet.format("%10c", names[j]);
-     //requet += resultSet.getString(j);
-     // }
-     //requet += String.format("%10c", letter[0]);
-     requet += "\n";
-     System.out.println("");
 
-     }
-     System.out.print(name);
-     System.out.print("\n");
-     System.out.print(requet);
+    public void buildData(ResultSet rs){
+        //Connection c ;
 
-     // The column count starts from 1
-
-     System.out.print("\n");
-     }
-     */
-    public void buildData(){
-        Connection c ;
         data = FXCollections.observableArrayList();
         try{
             // c = DBConnect.connect();
             //SQL FOR SELECTING ALL OF CUSTOMER
             //String SQL = "SELECT * from users";
             //ResultSet
-            ResultSet rs = SQL.requetteComplexe4();
 
             /**********************************
              * TABLE COLUMN ADDED DYNAMICALLY *
@@ -414,7 +392,8 @@ public class AcheteurController implements Initializable {
             e.printStackTrace();
         }
 
-        this.buildData();
+
+        remplirRequetteBox();
 
         getProductnonCategorie();
 
@@ -452,9 +431,53 @@ public class AcheteurController implements Initializable {
                 if(existe){
                     afficherNomProduit();
                 }else{
-                    list_produit_vendeur.getItems().clear();
-                    list_produit_vendeur.getItems().add("Aucun produit en vente");
+                        list_produit_vendeur.getItems().clear();
+                        list_produit_vendeur.getItems().add("Aucun produit en vente");
                 }
+
+
+            }
+        });
+        requetBox.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observableValue, Number number, Number number2) {
+                ResultSet resultat = null;
+                System.out.print(number2.intValue());
+                switch(number2.intValue()) {
+                    case 0:
+                        resultat = SQL.requetteComplexe1();
+                        break;
+                    case 1:
+                        resultat = SQL.requetteComplexe2();
+                        break;
+                    case 2:
+                        resultat = SQL.requetteComplexe3();
+                        break;
+                    case 3:
+                        resultat = SQL.requetteComplexe4();
+                        break;
+                    case 4:
+                        resultat = SQL.requetteComplexe5();
+                        break;
+                    case 5:
+                        resultat = SQL.requetteSimple8();
+                        break;
+                    case 6:
+                        resultat = SQL.requetteSimple7();
+                        break;
+                    case 7:
+                        resultat = SQL.requetteSimple3();
+                        break;
+                    case 8:
+                        resultat = SQL.requetteSimple2();
+                        break;
+                    case 9:
+                        resultat = SQL.requetteSimple1();
+                        break;
+
+                }
+                tableview.getColumns().clear();
+                buildData(resultat);
 
 
             }
@@ -479,12 +502,12 @@ public class AcheteurController implements Initializable {
             @Override
             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
                 setTextView(newValue);
-                if(newValue){
-                    ChangerAffichageProduit();
-                }
-                else{
-                    ChangerAffichageProduit();
-                }
+               if(newValue){
+                   ChangerAffichageProduit();
+               }
+               else{
+                   ChangerAffichageProduit();
+               }
             }
         });
     }
@@ -497,7 +520,6 @@ public class AcheteurController implements Initializable {
 
 
 }
-
 
 
 

@@ -72,8 +72,8 @@ public class SQLHelper {
         return hasResults(results);
     }
 /**
- ////////////////////////////////////////////////// Methodes pour l'onglet Acheteur //////////////////////////////////////////////////
- */
+    ////////////////////////////////////////////////// Methodes pour l'onglet Acheteur //////////////////////////////////////////////////
+*/
 
     /**
      *	Requete retournant l'histoirque d'achat d'un acheteur
@@ -127,9 +127,9 @@ public class SQLHelper {
         return results;
     }
 
-    /**
-     // Methodes pour l'onglet Annonceur ////////////////////////////////////////////////////////////////////////////////////
-     */
+/**
+    // Methodes pour l'onglet Annonceur ////////////////////////////////////////////////////////////////////////////////////
+*/
     public ResultSet getBoutique(String courriel) {
 
         ResultSet results = query("SELECT nomBoutique from vendeur WHERE courriel = '" + courriel + "';");
@@ -304,9 +304,7 @@ public class SQLHelper {
      */
     public ResultSet requetteSimple8() {
 
-        ResultSet result = query("SELECT id_prod,categorie,titre, courriel_acheteur, num_transaction, prix_vente\n" +
-                "    FROM produit natural join (SELECT id_prod, courriel_acheteur, prix_vente,num_transaction FROM vente) AS temp\n" +
-                "    WHERE nomBoutique in (select nomBoutique from vendeur where courriel='dolor@necmollisvitae.edu');");
+        ResultSet result = query("SELECT id_prod,categorie,titre, courriel_acheteur, num_transaction, prix_vente FROM produit natural join (SELECT id_prod, courriel_acheteur, prix_vente,num_transaction FROM vente) AS temp WHERE nomBoutique in (select nomBoutique from vendeur where courriel='dolor@necmollisvitae.edu');");
 
         return result;
 
@@ -314,7 +312,7 @@ public class SQLHelper {
 
 
     /**
-     --    ////////////////////////////////////////////////// Requetes de recherche complexes //////////////////////////////////////////////////
+--    ////////////////////////////////////////////////// Requetes de recherche complexes //////////////////////////////////////////////////
 
 
      * Methode retournant le Nom, prenom, courriel de l’acheteur dont le produit achete proviens de la ville ('Florenceville') et de la catégorie ('Telephones')
@@ -349,54 +347,51 @@ public class SQLHelper {
     }
 
 
-    /**
-     *  Methode retournant les 5 plus grands vendeurs sur la plateforme (par nb de ventes ventes) de la ville'Florenceville'
-     *  de la derniere annee (a partir de la date actuelle)
-     * @return la liste des 5 plus grands vendeurs de la plateforme
-     */
-    public ResultSet requetteComplexe3() {
+        /**
+         *  Methode retournant les 5 plus grands vendeurs sur la plateforme (par nb de ventes ventes) de la ville'Florenceville'
+         *  de la derniere annee (a partir de la date actuelle)
+         * @return la liste des 5 plus grands vendeurs de la plateforme
+         */
+        public ResultSet requetteComplexe3() {
 
-        ResultSet result = query(" with r1 as ( select * from ficheproduit natural join produit),\n" +
-                "                r2 as (select id_prod,nomboutique from r1 where ville='Florenceville'),\n" +
-                "                r3 as (select r2.nomboutique,id_prod from r2 natural join vente where date_vente >= (CURRENT_TIMESTAMP - INTERVAL'12 months')),\n" +
-                "        r4 as (select r3.nomboutique,id_prod from r3 inner join vendeur on r3.nomboutique = vendeur.nomboutique),\n" +
-                "        r5 as ( select nomBoutique, count(id_prod) as nb_prod_vendus from r4 group by nomBoutique order by nb_prod_vendus desc)\n" +
-                "        select * from r5 limit 5;");
+            ResultSet result = query(" with r1 as ( select * from ficheproduit natural join produit),\n" +
+                    "                r2 as (select id_prod,nomboutique from r1 where ville='Florenceville'),\n" +
+                    "                r3 as (select r2.nomboutique,id_prod from r2 natural join vente where date_vente >= (CURRENT_TIMESTAMP - INTERVAL'12 months')),\n" +
+                    "        r4 as (select r3.nomboutique,id_prod from r3 inner join vendeur on r3.nomboutique = vendeur.nomboutique),\n" +
+                    "        r5 as ( select nomBoutique, count(id_prod) as nb_prod_vendus from r4 group by nomBoutique order by nb_prod_vendus desc)\n" +
+                    "        select * from r5 limit 5;");
 
-        return result;
+            return result;
 
-    }
+        }
 
 
-    /**
-     * Methode retournant le courriel du vendeur ou tous les produits qui ont ete vendus se trouvaient a Florenceville
-     * @return la liste de tous les courriels des vendeurs ayant vendus un produit se trouvant a Florenceville
-     */
-    public ResultSet requetteComplexe4() {
+        /**
+         * Methode retournant le courriel du vendeur ou tous les produits qui ont ete vendus se trouvaient a Florenceville
+         * @return la liste de tous les courriels des vendeurs ayant vendus un produit se trouvant a Florenceville
+         */
+        public ResultSet requetteComplexe4() {
 
-        ResultSet result = query("select courriel\n" +
-                "        from vendeur\n" +
-                "        where nomBoutique in(select nomBoutique\n" +
-                "                from produit as p natural join (select id_prod, prix_vente from vente) as v\n" +
-                "                where v.prix_vente < p.prixEnVente and p.id_prod in (select id_prod from ficheProduit where ville ='Florenceville'));");
+            ResultSet result = query("select courriel\n" +
+                    "        from vendeur\n" +
+                    "        where nomBoutique in(select nomBoutique\n" +
+                    "                from produit as p natural join (select id_prod, prix_vente from vente) as v\n" +
+                    "                where v.prix_vente < p.prixEnVente and p.id_prod in (select id_prod from ficheProduit where ville ='Florenceville'));");
 
-        return result;
+            return result;
 
-    }
+        }
 
-    /**
-     * Methode retournant l'historique des estimations de tous les produits evalues et leur decision, avec leur prix de vente si il y a lieu
-     */
-    public ResultSet requetteComplexe5() {
+        /**
+         * Methode retournant l'historique des estimations de tous les produits evalues et leur decision, avec leur prix de vente si il y a lieu
+         */
+        public ResultSet requetteComplexe5() {
 
-        ResultSet result = query("select id_prod,categorie,titre, prix_estime as estime_rejete,estime_accepte,prix_vente\n" +
-                "        from estimation natural join (select id_prod,prix_estime as estime_accepte from estime_accepte) as a\n" +
-                "        natural join (select id_prod,prix_vente from vente) as v\n" +
-                "        natural join (select id_prod,categorie,titre from produit) as p;");
+            ResultSet result = query("select id_prod,categorie,titre, prix_estime as estime_rejete,estime_accepte,prix_vente from estimation natural join (select id_prod,prix_estime as estime_accepte from estime_accepte) as a natural join (select id_prod,prix_vente from vente) as v natural join (select id_prod,categorie,titre from produit) as p;");
 
-        return result;
+            return result;
 
-    }
+        }
 
 
 
