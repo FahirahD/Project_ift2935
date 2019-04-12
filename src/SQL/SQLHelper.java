@@ -64,24 +64,17 @@ public class SQLHelper {
 
     /**
      * Pour se connecter dans l'application
-     * Vérifie si la combinaison de username et password est bien dans la base de donnees
-     *
-     * @param userType, le type d'usager (vendeur, acheteur, expert)
-     * @param username, l'identifiant de l'usager
-     * @param password, le mot de passe
-     *
-     * @return si la requete trouve ou nom l'usager dans la table correspondante (vide ou non)
-     */
-    public boolean isValidLogin(String userType,String username, String password) {
+     **/
+    public boolean isValidLogin(String userType,String courriel, String password) {
 
-        ResultSet results = query("SELECT courriel, mot_de_passe FROM "+userType.toLowerCase()+" WHERE courriel = '" + username + "' AND mot_de_passe = '" + password + "'");
+        ResultSet results = query("SELECT courriel, mot_de_passe FROM "+userType.toLowerCase()+" WHERE courriel = '" +courriel+ "' AND mot_de_passe = '" + password + "'");
 
         return hasResults(results);
     }
+/**
+ ////////////////////////////////////////////////// Methodes pour l'onglet Acheteur //////////////////////////////////////////////////
+ */
 
-    ////////////////////////////////////////////////// Methodes pour l'onglet Acheteur //////////////////////////////////////////////////
-
-    //TODO: enlever le commentaire pour param username
     /**
      *	Requete retournant l'histoirque d'achat d'un acheteur
      *
@@ -133,79 +126,10 @@ public class SQLHelper {
 
         return results;
     }
-    public ResultSet testnegocier() {
-
-        ResultSet results = query("select negocier('18', 'rutrum.Fusce@eu.edu', '2900');");
-
-        return results;
-    }
-
 
     /**
-     *	Requete retournant tous les objets en vente parmis tous les magasins
-     *
-     * @return la liste de tous les objets en vente si il y a lieu
-     *
-     *
+     // Methodes pour l'onglet Annonceur ////////////////////////////////////////////////////////////////////////////////////
      */
-    public ResultSet getAvailableItems() {
-
-        ResultSet results = query("SELECT nom_produit, prix_souhaite, annonceur_username FROM Produit WHERE ((etat='dispo') AND (date_exp > CURDATE())) ;");
-
-        return results;
-    }
-
-    /**
-     *	Recherche de produits à acheter selon un prix inférieur à celui entré
-     */
-    public ResultSet getItemsCheaperThan(int price) {
-
-        ResultSet results = query("SELECT nom_produit, prix_souhaite, annonceur_username FROM Produit WHERE ((prix_souhaite < " + price + ") AND (etat='dispo') AND (date_exp > CURDATE()));");
-
-        return results;
-    }
-
-    /**
-     *	Recherche de produits à acheter selon la catégorie choisie
-     */
-    public ResultSet getItemsByCategory(String category) {
-
-        ResultSet results = query("SELECT nom_produit, prix_souhaite, annonceur_username FROM Produit WHERE ( (nom_categorie ='" + category + "') AND (etat='dispo') AND (date_exp > CURDATE()))");
-
-        return results;
-    }
-
-    /**
-     *  Recherche de produits selon la catégorie et le prix
-     */
-    public ResultSet getItemsByCategoryAndPrice(String category, int price){
-
-        ResultSet results = query("SELECT nom_produit, prix_souhaite, annonceur_username FROM Produit "
-                + "WHERE ((prix_souhaite < " + price + ") AND (nom_categorie ='" + category + "') "
-                + "AND (etat='dispo') AND (date_exp > CURDATE()));");
-
-        return results;
-    }
-
-    /**
-     *  Requetes retournant toutes les categories d'objets existantes
-     *
-     * @return la liste des castegories existantes
-     */
-    public ResultSet getCategoryNames(){
-
-        ResultSet results = query("SELECT nom_categorie FROM Categorie;");
-
-        return results;
-    }
-
-
-    // Methodes pour l'onglet Annonceur ////////////////////////////////////////////////////////////////////////////////////
-
-    /**
-     *	Recherche des produits non vendus par l'usager
-     */
-
     public ResultSet getBoutique(String courriel) {
 
         ResultSet results = query("SELECT nomBoutique from vendeur WHERE courriel = '" + courriel + "';");
@@ -238,47 +162,11 @@ public class SQLHelper {
         return results;
     }
 
-
-
-
-    public ResultSet getUnsoldItems(String seller) {
-
-        ResultSet results = query("SELECT nom_produit, prix_souhaite FROM Produit WHERE ((annonceur_username='" + seller + "') AND (etat='dispo'));");
-
-        return results;
-    }
-
     /**
-     *	Recherche des produits non vendus par l'usager dont l'offre est expirée
+     *
+     // Methodes pour l'onglet Expert ////////////////////////////////////////////////////////////////////////////////////
      */
-    public ResultSet getExpiredItems(String seller) {
 
-        ResultSet results = query("SELECT nom_produit, prix_souhaite FROM Produit WHERE ((annonceur_username='" + seller + "') AND (etat='dispo') AND (date_exp < CURDATE()))");
-
-        return results;
-    }
-
-    /**
-     *	Historique des produits vendus par l'annonceur
-     */
-    public ResultSet getSellerHistory(String username) {
-
-        ResultSet results = query("SELECT nom_produit, prix_offre, acheteur_username, telephone, adresse_livraison FROM Produit INNER JOIN (SELECT id, usernameAch AS acheteur_username, MAX(prix_propose) AS prix_offre FROM Offre GROUP BY id) AS Temp ON Produit.id = Temp.id INNER JOIN Usager ON acheteur_username = Usager.username INNER JOIN Acheteur ON acheteur_username = Acheteur.username WHERE ((annonceur_username='" + username + "') AND (etat='vendu')) \n");
-
-        return results;
-    }
-
-    /**
-     *	Historique des offres sur un produit de l`annonceur
-     */
-    public ResultSet getProductOffers(String seller, String product) {
-
-        ResultSet results = query("SELECT usernameAch,prix_propose FROM Offre JOIN Produit ON Produit.id = Offre.id WHERE ((annonceur_username='" + seller + "') AND (nom_produit='" + product + "'))");
-
-        return results;
-    }
-
-    // Methodes pour l'onglet Expert ////////////////////////////////////////////////////////////////////////////////////
 
     public ResultSet getProduitToEstimate() {
 
@@ -291,17 +179,233 @@ public class SQLHelper {
     public void estimer(String id_prod,String prix) {
 
         ResultSet result = query("select estimer('"+id_prod+"', '"+prix+"', 'fahirah@udem.com');");
+    }
 
 
+    /**
+
+     --////////////////////////////////////////////////// Requetes de recherche simples //////////////////////////////////////////////////
+
+
+     * Methode retournant tous les produits en vente de la boutique specifee
+     * @return la liste de tous les produits en ventes liste par la boutique specifiee
+     */
+    public ResultSet requetteSimple1() {
+
+        ResultSet result = query("select *\n" +
+                "    from produit\n" +
+                "    where nomBoutique in (select nomBoutique \n" +
+                "\t\t\t\t\t\t\t\tfrom vendeur\n" +
+                "                                        where courriel = 'nec.mauris@Quisquevarius.org');");
+
+        return result;
+
+    }
+
+
+
+    /**
+     * Methode retournant tous les produits en achetes de l'acheteur specife
+     * @return la liste de tous les produits achetes par l'acheteur specifie
+     */
+    public ResultSet requetteSimple2() {
+
+        ResultSet result = query("select *\n" +
+                "    from produit\n" +
+                "    where id_prod in (select id_prod \n" +
+                "\t\t\t\t\t\t\tfrom vente\n" +
+                "                                    where courriel_acheteur ='tortor@aliquamerosturpis.net');");
+
+        return result;
+
+    }
+
+
+    /**
+     * Methode retournant tous les produits en estimé par l'expert specife
+     * @return la liste de tous les produits evalues par l'expert specifie
+     */
+    public ResultSet requetteSimple3() {
+
+        ResultSet result = query("select *\n" +
+                "    from produit\n" +
+                "    where id_prod in (select id_prod \n" +
+                "\t\t\t\t\t\t\tfrom estime_accepte\n" +
+                "                                    where courriel_expert ='nunc.id.enim@condimentumDonec.co.uk');");
+
+        return result;
+
+    }
+
+
+    /**
+     * Methode retournant tous les produits vendus sur le site
+     * @return la liste de tous les produits en vente
+     */
+    public ResultSet requetteSimple4() {
+
+        ResultSet result = query("select *\n" +
+                "    from produit\n" +
+                "    where etat_prod_vente = 'Vente';");
+
+        return result;
+
+    }
+
+
+    /**
+     * Methode retournant tous les produits en pre-vente sur le site
+     * @return la liste de tous les produits en pre-vent
+     */
+    public ResultSet requetteSimple5() {
+
+        ResultSet result = query(" select *\n" +
+                "    from produit\n" +
+                "    where etat_prod_vente = 'Estimation';");
+
+        return result;
 
     }
 
 
 
 
-    // Private helping methods /////////////////////////////////////////////////////////////////////////////////
+    /**
+     * Methode retournant tous les produits en vente sur le site
+     * @return la liste des produits en vente
+     */
+    public ResultSet requetteSimple6() {
 
-    // Attempt connection to database
+        ResultSet result = query("select *\n" +
+                "    from produit\n" +
+                "    where etat_prod_vente = 'Affiche';");
+
+        return result;
+
+    }
+
+    /**
+     * Methode retournant tous les produits
+     * @return la liste des produits de la categorie specifiee et dont le prix est inferieur a 10
+     */
+    public ResultSet requetteSimple7() {
+
+        ResultSet result = query("Select *\n" +
+                "    from produit\n" +
+                "    where categorie='Outils' AND prixEnVente<10;");
+
+        return result;
+
+    }
+
+    /**
+     * Methode retournant l'historique des ventes d'un vendeur specifie
+     * @return la liste de tous les produits vendus par le vendeur specifie
+     */
+    public ResultSet requetteSimple8() {
+
+        ResultSet result = query("SELECT id_prod,categorie,titre, courriel_acheteur, num_transaction, prix_vente\n" +
+                "    FROM produit natural join (SELECT id_prod, courriel_acheteur, prix_vente,num_transaction FROM vente) AS temp\n" +
+                "    WHERE nomBoutique in (select nomBoutique from vendeur where courriel='dolor@necmollisvitae.edu');");
+
+        return result;
+
+    }
+
+
+    /**
+     --    ////////////////////////////////////////////////// Requetes de recherche complexes //////////////////////////////////////////////////
+
+
+     * Methode retournant le Nom, prenom, courriel de l’acheteur dont le produit achete proviens de la ville ('Florenceville') et de la catégorie ('Telephones')
+     *
+     * @return la liste des acheteurs correspondant a ces criteres
+     */
+    public ResultSet requetteComplexe1() {
+
+        ResultSet result = query("with r1 as( select * from ficheproduit natural join produit),\n" +
+                "    r2 as (select id_prod from r1 where ville='Florenceville' and categorie='Téléphones' and etat_prod_vente='Vente'),\n" +
+                "    r3 as (select courriel_acheteur from r2 natural join vente),\n" +
+                "    r4 as (select distinct nom, prenom, courriel from r3 inner join acheteur on r3.courriel_acheteur=acheteur.courriel)\n" +
+                "    select * from r4;");
+
+        return result;
+
+    }
+
+    /**
+     * Methode retournant le courriel de tous les experts ayant estime les produits de l’utilisateur'placerat@lacinia.co.uk'
+     * @return la liste de tous les experts ayant estime tous les produits de l'utilisateur'placerat@lacinia.co.uk'
+     */
+    public ResultSet requetteComplexe2() {
+
+        ResultSet result = query(" with r1 as (select id_prod from vendeur natural join produit where courriel='placerat@lacinia.co.uk'),\n" +
+                "                r2 as (select courriel_expert from r1 natural join estime_accepte),\n" +
+                "                r3 as (select distinct courriel,nom,prenom from r2 inner join expert on courriel_expert=courriel)\n" +
+                "        select nom,prenom,courriel from r3;");
+
+        return result;
+
+    }
+
+
+    /**
+     *  Methode retournant les 5 plus grands vendeurs sur la plateforme (par nb de ventes ventes) de la ville'Florenceville'
+     *  de la derniere annee (a partir de la date actuelle)
+     * @return la liste des 5 plus grands vendeurs de la plateforme
+     */
+    public ResultSet requetteComplexe3() {
+
+        ResultSet result = query(" with r1 as ( select * from ficheproduit natural join produit),\n" +
+                "                r2 as (select id_prod,nomboutique from r1 where ville='Florenceville'),\n" +
+                "                r3 as (select r2.nomboutique,id_prod from r2 natural join vente where date_vente >= (CURRENT_TIMESTAMP - INTERVAL'12 months')),\n" +
+                "        r4 as (select r3.nomboutique,id_prod from r3 inner join vendeur on r3.nomboutique = vendeur.nomboutique),\n" +
+                "        r5 as ( select nomBoutique, count(id_prod) as nb_prod_vendus from r4 group by nomBoutique order by nb_prod_vendus desc)\n" +
+                "        select * from r5 limit 5;");
+
+        return result;
+
+    }
+
+
+    /**
+     * Methode retournant le courriel du vendeur ou tous les produits qui ont ete vendus se trouvaient a Florenceville
+     * @return la liste de tous les courriels des vendeurs ayant vendus un produit se trouvant a Florenceville
+     */
+    public ResultSet requetteComplexe4() {
+
+        ResultSet result = query("select courriel\n" +
+                "        from vendeur\n" +
+                "        where nomBoutique in(select nomBoutique\n" +
+                "                from produit as p natural join (select id_prod, prix_vente from vente) as v\n" +
+                "                where v.prix_vente < p.prixEnVente and p.id_prod in (select id_prod from ficheProduit where ville ='Florenceville'));");
+
+        return result;
+
+    }
+
+    /**
+     * Methode retournant l'historique des estimations de tous les produits evalues et leur decision, avec leur prix de vente si il y a lieu
+     */
+    public ResultSet requetteComplexe5() {
+
+        ResultSet result = query("select id_prod,categorie,titre, prix_estime as estime_rejete,estime_accepte,prix_vente\n" +
+                "        from estimation natural join (select id_prod,prix_estime as estime_accepte from estime_accepte) as a\n" +
+                "        natural join (select id_prod,prix_vente from vente) as v\n" +
+                "        natural join (select id_prod,categorie,titre from produit) as p;");
+
+        return result;
+
+    }
+
+
+
+
+
+
+
+
+
     private boolean connect() {
         try {
             connection = DriverManager.getConnection(URL, USER, PW);
@@ -311,7 +415,7 @@ public class SQLHelper {
         return isConnected();
     }
 
-    // Test if results have been returned
+
     private boolean hasResults (ResultSet results) {
 
         if( results != null) {
