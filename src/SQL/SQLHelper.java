@@ -79,39 +79,55 @@ public class SQLHelper {
      * @return la liste des precedentes transactions si il y a lieu
      */
 
-    public ResultSet getProductCategorie(String nomCategorie){
+    public ResultSet getProductCategorie(String nomCategorie,String courriel){
 
-        ResultSet results = query("select id_prod,titre from produit where categorie = '" + nomCategorie + "' and etat_prod_vente='Affiche';");
+        ResultSet results = query("select id_prod,titre from produit where categorie = '" +nomCategorie+"' and etat_prod_vente='Affiche' and id_prod NOT in (select id_prod from negociation where courriel_acheteur = '"+courriel+"' and (etat_offre is null or etat_offre = 'accepte'));");
 
         return results;
     }
-    public ResultSet getProductAffiche(){
+    public ResultSet getProductAffiche(String courriel){
 
-        ResultSet results = query("select id_prod,titre from produit where etat_prod_vente='Affiche';");
+        ResultSet results = query("select id_prod,titre from produit where etat_prod_vente='Affiche' and id_prod NOT in (select id_prod from negociation where courriel_acheteur = '"+courriel+"' and (etat_offre is null or etat_offre = 'accepte'));");
+
+        return results;
+    }
+    public ResultSet getProductCategorieNego(String nomCategorie,String courriel){
+
+        ResultSet results = query("select id_prod,titre from produit where categorie = '" +nomCategorie+"' and id_prod in (select id_prod from negociation where courriel_acheteur = '"+courriel+"');");
+
+        return results;
+    }
+    public ResultSet getProductAfficheNego(String courriel){
+
+        ResultSet results = query("select id_prod,titre from produit where id_prod in (select id_prod from negociation where courriel_acheteur = '"+courriel+"');");
 
         return results;
     }
     public ResultSet getProduitAfficheInfo(String idProduit) {
 
-        ResultSet results = query("select categorie,titre,etat,etat_prod_vente,description_produit,numRue,nomRue,codePost,ville from produit natural join ficheProduit where id_prod = '" + idProduit + "' and etat_prod_vente='Affiche';");
+        ResultSet results = query("select nomBoutique,titre,etat,description_produit,numRue,nomRue,codePost,ville from produit natural join ficheProduit where id_prod = '" + idProduit + "' ;");
 
         return results;
     }
-    public ResultSet getBuyerHistory(String username) {
-        ResultSet results = query("SELECT nom_produit, prix_propose, annonceur_username, telephone, adresse_facturation FROM Produit INNER JOIN Usager ON annonceur_username = Usager.username INNER JOIN Annonceur ON annonceur_username = Annonceur.username INNER JOIN Offre ON Produit.id = Offre.id WHERE usernameAch='" + username + "' AND etat='vendu'");
+    public ResultSet getPrixInfoNego(String idProduit,String courriel) {
+
+        ResultSet results = query("select prix_offert,etat_offre from negociation where  id_prod = '" + idProduit + "' and courriel_acheteur = '"+courriel+"'");
+
+        return results;
+    }
+    public ResultSet negocier(String idProduit,String courriel,String prix) {
+
+        ResultSet results = query(" select negocier('" + idProduit + "','" + courriel + "','" + prix + "');");
+
+        return results;
+    }
+    public ResultSet testnegocier() {
+
+        ResultSet results = query("select negocier('18', 'rutrum.Fusce@eu.edu', '2900');");
 
         return results;
     }
 
-    /**
-     *  Requete retournant l'historique d'achat d'un acheteur
-     */
-    public ResultSet getBuyerOffers(String username){
-
-        ResultSet results = query("SELECT nom_produit, prix_propose, annonceur_username, telephone, adresse_facturation FROM Produit INNER JOIN Offre ON Produit.id = Offre.id INNER JOIN Usager ON annonceur_username = Usager.username INNER JOIN Annonceur ON annonceur_username = Annonceur.username WHERE usernameAch='" + username + "' AND etat='dispo' ");
-
-        return results;
-    }
 
     /**
      *	Requete retournant tous les objets en vente parmis tous les magasins

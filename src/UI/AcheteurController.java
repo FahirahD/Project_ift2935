@@ -5,13 +5,20 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import org.postgresql.util.PSQLException;
 import utils.Produit;
 import utils.User;
 
@@ -26,25 +33,26 @@ public class AcheteurController implements Initializable {
 
     public SQLHelper SQL = new SQLHelper();
     //tab 1
-    public Text titre_afficher;
-    public Text condition_afficher;
-    public Text etatvente_afficher;
-    public Text adresse_afficher;
-    public Text norue_afficher;
-    public Text ville_afficher;
-    public Text codepostal_afficher;
-    //tab 2
-    public TextField titre_ajouter;
-    public ChoiceBox condition_ajouter;
+    public Text boutique_achet;
+    public Text titre_achet;
+    public Text condition_achet;
+    public Text adresse_achet;
+    public Text adresse_achet2;
+    public Text description_achet;
+    public Text offre_ouvert;
+    public Text offre_rejete;
+    public Text offre_accepte;
+    public Text offre_ouvert1;
+    public Text offre_rejete1;
+    public Text offre_accepte1;
+    public Text textprix;
     public ChoiceBox categorie_ajouter;
-    public TextArea description_ajouter;
-    public TextField norue_ajouter;
-    public TextField nomrue_ajouter;
-    public TextField codepostal_ajouter;
-    public TextField ville_ajouter;
-    public Button button_ajouter_produit;
-    public TextField prix_ajouter;
     public boolean existe;
+    public Button offre_boutton;
+    public TextField offre_prix;
+    public Label offre_confirmation;
+    public CheckBox afficheNego;
+    public boolean affiche_nego_active;
     // tab 3
 
     ArrayList<Produit> listProduits = new ArrayList();
@@ -67,13 +75,18 @@ public class AcheteurController implements Initializable {
 
 
     public boolean getProduct(String cat) {
-        if(cat.equals("Tout")){
+        if(cat.equals("Tout") || cat.isEmpty()){
             getProductnonCategorie();
         }
         else{
 
         ArrayList<String> nomCategorie = new ArrayList<String>();
-        ResultSet produit = SQL.getProductCategorie(cat);
+        ResultSet produit;
+        if(affiche_nego_active)
+            produit = SQL.getProductCategorieNego(cat,User.email);
+        else
+            produit = SQL.getProductCategorie(cat,User.email);
+
         if(produit != null){
             try {
                 if(produit.next()){
@@ -102,7 +115,12 @@ public class AcheteurController implements Initializable {
         existe = true;
         idProduit = new ArrayList<Integer>();
         nomProduit = new ArrayList<String>();
-        ResultSet produit = SQL.getProductAffiche();
+        ResultSet produit;
+        if(affiche_nego_active)
+            produit = SQL.getProductAfficheNego(User.email);
+        else
+            produit = SQL.getProductAffiche(User.email);
+
 
             try {
                 while (produit.next()) {
@@ -117,44 +135,89 @@ public class AcheteurController implements Initializable {
 
     }
     public void viderText(){
-        titre_afficher.setText("");
-        etatvente_afficher.setText("");
-        codepostal_afficher.setText("");
-        ville_afficher.setText("");
-        norue_afficher.setText("");
-        etatvente_afficher.setText("");
-        condition_afficher.setText("");
+        boutique_achet.setText("");
+        titre_achet.setText("");
+          condition_achet.setText("");
+          adresse_achet.setText("");
+          adresse_achet2.setText("");
+          description_achet.setText("");
+
+    }
+    public void updatePrix(Integer ProduitId){
+        ResultSet rPrixNego = SQL.getPrixInfoNego(ProduitId.toString(),User.email);
+        String ouvert = "";
+        String accepte = "";
+        String rejete = "";
+
+        try {
+            while(rPrixNego.next()){
+                String prix = rPrixNego.getString(1);
+
+
+                String etatoffre = rPrixNego.getString(2);
+
+                if(etatoffre == null)
+                    ouvert += prix;
+                else
+                    if(etatoffre.equals("rejete"))
+                        rejete += prix + "; ";
+                    else
+                        accepte += prix;
+
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        offre_ouvert1.setText(ouvert);
+        offre_rejete1.setText(rejete);
+        offre_accepte1.setText(accepte);
     }
     public void updateDescription(){
         Integer ProduitId = idProduit.get( list_produit_vendeur.getSelectionModel().getSelectedIndex());
+        offre_prix.setText("");
+        ResultSet rProduit = SQL.getProduitAfficheInfo(ProduitId.toString());
+        if(affiche_nego_active){
+            updatePrix(ProduitId);
+        }
 
-        ResultSet rProduit = SQL.getProduitVendeur2(ProduitId.toString());
         try {
             rProduit.next();
-            String cat  = rProduit.getString(1);
+            String boutique = rProduit.getString(1);
             String titre  = rProduit.getString(2);
             String etat  = rProduit.getString(3);
-            String etatprod  = rProduit.getString(4);
-            String prix = rProduit.getString(5);
-            String description = rProduit.getString(6);
-            String norue= rProduit.getString(7);
-            String nomrue = rProduit.getString(8);
-            String codePost = rProduit.getString(9);
-            String ville = rProduit.getString(10);
+            String description = rProduit.getString(4);
+            String norue= rProduit.getString(5);
+            String nomrue = rProduit.getString(6);
+            String codePost = rProduit.getString(7);
+            String ville = rProduit.getString(8);
+            offre_confirmation.setText("");
+            boutique_achet.setText(boutique);
+            titre_achet.setText(titre);
+            condition_achet.setText(etat);
+            adresse_achet.setText(norue +" "+ nomrue);
+            adresse_achet2.setText(codePost + "  "+ ville);
+            description_achet.setText(description);
 
-            titre_afficher.setText(titre);
-            etatvente_afficher.setText(titre);
-            codepostal_afficher.setText(codePost);
-            ville_afficher.setText(ville);
-            norue_afficher.setText(norue);
-            etatvente_afficher.setText(etatprod);
-            condition_afficher.setText(etat);
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
     }
-
+    public void setTextView(boolean isNego){
+            textprix.setVisible(!isNego);
+            offre_prix.setVisible(!isNego);
+            offre_boutton.setVisible(!isNego);
+            offre_confirmation.setVisible(!isNego);
+            affiche_nego_active = isNego;
+            offre_ouvert.setVisible(isNego);
+            offre_rejete.setVisible(isNego);
+            offre_accepte.setVisible(isNego);
+             offre_accepte1.setVisible(isNego);
+            offre_ouvert1.setVisible(isNego);
+            offre_rejete1.setVisible(isNego);
+            ChangerAffichageProduit();
+    }
     public void change_cat(){
 
         getProduct(categorie_ajouter.getValue().toString());
@@ -169,9 +232,51 @@ public class AcheteurController implements Initializable {
             list_produit_vendeur.setItems(items);
         }
     }
+    public void  negocier() throws IOException , SQLException {
+        String courriel = User.email;
+        String offre = offre_prix.getText().toString();
+        try {
+            double value = Double.parseDouble(offre);
+            if(value<0)
+                   offre_confirmation.setText(value + " est negative");
+            else {
+                Integer ProduitId = idProduit.get(list_produit_vendeur.getSelectionModel().getSelectedIndex());
+                ResultSet resultat = SQL.negocier(ProduitId.toString(), courriel, offre);
+                //ResultSet resultat = SQL.testnegocier();
+                resultat.next();
+                String reponse = resultat.getString(1);
+                offre_confirmation.setText(reponse +"\n Offre:"+offre+"$");
+                offre_prix.setText("");
+                ChangerAffichageProduit();
+            }
+
+
+        } catch (NumberFormatException e) {
+            offre_confirmation.setText(offre + " n'est pas un nombre");
+        }
+
+
+
+    }
+    public void ChangerAffichageProduit(){
+        //viderText();
+        String categorie = categorie_ajouter.getValue().toString();
+
+        boolean existe = getProduct(categorie);
+        if(existe){
+            afficherNomProduit();
+        }else{
+            list_produit_vendeur.getItems().clear();
+            list_produit_vendeur.getItems().add("Aucun produit en vente");
+        }
+    }
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        affiche_nego_active = false;
+        offre_ouvert.setVisible(false);
+        offre_rejete.setVisible(false);
 
         try {
             ArrayList<String> nomCategorie= this.getCategories();
@@ -181,7 +286,6 @@ public class AcheteurController implements Initializable {
             e.printStackTrace();
         }
 
-
         getProductnonCategorie();
 
         afficherNomProduit();
@@ -189,8 +293,14 @@ public class AcheteurController implements Initializable {
         list_produit_vendeur.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                if(existe)
+                if(existe) {
+                    viderText();
                     updateDescription();
+                }
+                else{
+                    viderText();
+                    updateDescription();
+                }
             }
         });
         list_produit_vendeur.setOnKeyPressed(new EventHandler<KeyEvent>() {
@@ -205,6 +315,8 @@ public class AcheteurController implements Initializable {
             @Override
             public void changed(ObservableValue<? extends Number> observableValue, Number number, Number number2) {
                 viderText();
+                offre_prix.setText("");
+
                 String categorie = categorie_ajouter.getItems().get((Integer) number2).toString();
                 boolean existe = getProduct(categorie);
                 if(existe){
@@ -217,7 +329,34 @@ public class AcheteurController implements Initializable {
 
             }
         });
+        offre_boutton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override public void handle(ActionEvent e) {
+                if(existe) {
+                    try {
+                        negocier();
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    } catch (SQLException ex) {
+                        ex.printStackTrace();
+                    }
+                }
+                else {
+                    offre_confirmation.setText("Veuillez choisir un article");
+                }}
+        });
 
+        afficheNego.selectedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                setTextView(newValue);
+               if(newValue){
+                   ChangerAffichageProduit();
+               }
+               else{
+                   ChangerAffichageProduit();
+               }
+            }
+        });
     }
 
 
