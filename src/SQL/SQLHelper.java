@@ -304,7 +304,7 @@ public class SQLHelper {
      */
     public ResultSet requetteSimple8() {
 
-        ResultSet result = query("SELECT id_prod,categorie,titre, courriel_acheteur, num_transaction, prix_vente FROM produit natural join (SELECT id_prod, courriel_acheteur, prix_vente,num_transaction FROM vente) AS temp WHERE nomBoutique in (select nomBoutique from vendeur where courriel='dolor@necmollisvitae.edu');");
+        ResultSet result = query("SELECT id_prod,categorie,titre, courriel_acheteur, prix_vente FROM produit natural join (SELECT id_prod, courriel_acheteur, prix_vente,num_transaction FROM vente) AS temp WHERE nomBoutique in (select nomBoutique from vendeur where courriel='dolor@necmollisvitae.edu');");
 
         return result;
 
