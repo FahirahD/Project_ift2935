@@ -50,6 +50,18 @@ public class SQLHelper {
         return null;
     }
 
+    public ResultSet querybis(String query) throws SQLException {
+        if (isConnected()) {
+
+            ResultSet resultSet = null;
+
+            Statement statement = connection.createStatement();
+            resultSet = statement.executeQuery(query);
+            return resultSet;
+        }
+        return null;
+    }
+
     /**
      * Pour se connecter dans l'application
      * Vérifie si la combinaison de username et password est bien dans la base de donnees
@@ -69,11 +81,11 @@ public class SQLHelper {
 
     ////////////////////////////////////////////////// Methodes pour l'onglet Acheteur //////////////////////////////////////////////////
 
-
+    //TODO: enlever le commentaire pour param username
     /**
      *	Requete retournant l'histoirque d'achat d'un acheteur
      *
-     * @param username, le nom d'usager
+     * //@param username, le nom d'usager
      * ->param userType, le type d'usager
      *
      * @return la liste des precedentes transactions si il y a lieu
@@ -215,7 +227,7 @@ public class SQLHelper {
     }
     public void ajouterProduitVendeur(String idBoutique,String categorie,String titre , String prix_souhaite, String etat , String description , String noRue,String nomRue,String codePost , String ville) throws SQLException {
 
-        ResultSet results = query(" select ajoutProduit('" + idBoutique + "','" + categorie + "','" + titre + "','" + prix_souhaite + "','" + etat + "','" + description + "','" + noRue + "','" + nomRue + "','" + codePost + "','" + ville + "');");
+        ResultSet results = querybis(" select ajoutProduit('" + idBoutique + "','" + categorie + "','" + titre + "','" + prix_souhaite + "','" + etat + "','" + description + "','" + noRue + "','" + nomRue + "','" + codePost + "','" + ville + "');");
     }
 
     public ResultSet getCategories() {
