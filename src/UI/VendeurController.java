@@ -47,6 +47,8 @@ public class VendeurController  implements Initializable {
     public Button button_ajouter_produit;
     public TextField prix_ajouter;
     public Label labelErreurInsertion;
+    public static String idProdAEstime;
+
 
     // tab 3
 
@@ -172,7 +174,10 @@ public class VendeurController  implements Initializable {
 
         System.out.println(boutique+titre+categorie+condition+description+norue+nomrue+codepostal+ville+prix);
         try{
-            SQL.ajouterProduitVendeur(boutique, categorie, titre, prix, condition, description, norue, nomrue, codepostal, ville);
+           ResultSet result = SQL.ajouterProduitVendeur(boutique, categorie, titre, prix, condition, description, norue, nomrue, codepostal, ville);
+           result.next();
+            idProdAEstime = result.getString(1);
+
             Parent expert_parent = FXMLLoader.load(getClass().getResource("expert.fxml"));
 
             Scene estimation_scene = new Scene(expert_parent);

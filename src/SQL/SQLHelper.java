@@ -225,9 +225,10 @@ public class SQLHelper {
 
         return results;
     }
-    public void ajouterProduitVendeur(String idBoutique,String categorie,String titre , String prix_souhaite, String etat , String description , String noRue,String nomRue,String codePost , String ville) throws SQLException {
+    public ResultSet ajouterProduitVendeur(String idBoutique,String categorie,String titre , String prix_souhaite, String etat , String description , String noRue,String nomRue,String codePost , String ville) throws SQLException {
 
         ResultSet results = querybis(" select ajoutProduit('" + idBoutique + "','" + categorie + "','" + titre + "','" + prix_souhaite + "','" + etat + "','" + description + "','" + noRue + "','" + nomRue + "','" + codePost + "','" + ville + "');");
+        return results;
     }
 
     public ResultSet getCategories() {
@@ -285,8 +286,16 @@ public class SQLHelper {
 
         return result;
 
+    }
+
+    public void estimer(String id_prod,String prix) {
+
+        ResultSet result = query("select estimer('"+id_prod+"', '"+prix+"', 'fahirah@udem.com');");
+
+
 
     }
+
 
 
 
