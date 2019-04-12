@@ -48,23 +48,23 @@
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <Text layoutX="35.0" layoutY="62.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Titre * :" />
+                        <Text layoutX="35.0" layoutY="62.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Titre * " />
                         <TextField fx:id="titre_ajouter" layoutX="128.0" layoutY="44.0" prefHeight="26.0" prefWidth="140.0" />
-                        <Text layoutX="35.0" layoutY="102.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Catégorie * :" />
-                        <Text layoutX="35.0" layoutY="145.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Condition * : " />
+                        <Text layoutX="35.0" layoutY="102.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Catégorie * " />
+                        <Text layoutX="35.0" layoutY="145.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Condition * " />
                         <Text layoutX="35.0" layoutY="219.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Description:" />
                         <TextArea fx:id="description_ajouter" layoutX="128.0" layoutY="207.0" prefHeight="86.0" prefWidth="146.0" />
-                        <Text layoutX="292.0" layoutY="62.0" strokeType="OUTSIDE" strokeWidth="0.0" text="No rue :" />
-                        <TextField fx:id="norue_ajouter" layoutX="373.0" layoutY="40.0" prefHeight="26.0" prefWidth="144.0" />
-                        <Text layoutX="292.0" layoutY="99.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nom de rue :" />
-                        <TextField fx:id="nomrue_ajouter" layoutX="373.0" layoutY="77.0" prefHeight="26.0" prefWidth="144.0" />
-                        <Text layoutX="292.0" layoutY="137.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Code Postal  * :" />
-                        <TextField fx:id="codepostal_ajouter" layoutX="373.0" layoutY="119.0" prefHeight="26.0" prefWidth="144.0" />
+                        <Text layoutX="292.0" layoutY="62.0" strokeType="OUTSIDE" strokeWidth="0.0" text="No rue " />
+                        <TextField fx:id="norue_ajouter" layoutX="373.0" layoutY="40.0" prefHeight="26.0" prefWidth="150.0" />
+                        <Text layoutX="292.0" layoutY="99.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nom de rue " />
+                        <TextField fx:id="nomrue_ajouter" layoutX="373.0" layoutY="77.0" prefHeight="26.0" prefWidth="150.0" />
+                        <Text layoutX="292.0" layoutY="137.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Code Postal  * " />
+                        <TextField fx:id="codepostal_ajouter" layoutX="373.0" layoutY="119.0" prefHeight="26.0" prefWidth="150.0" />
                         <Text layoutX="292.0" layoutY="177.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ville *:" />
-                        <TextField fx:id="ville_ajouter" layoutX="373.0" layoutY="157.0" prefHeight="26.0" prefWidth="144.0" />
+                        <TextField fx:id="ville_ajouter" layoutX="373.0" layoutY="157.0" prefHeight="26.0" prefWidth="150.0" />
                         <Button fx:id="button_ajouter_produit" layoutX="373.0" layoutY="215.0" mnemonicParsing="false" onAction="#ajouterProduit" text="ajouter produit" />
                         <ChoiceBox fx:id="condition_ajouter" layoutX="128.0" layoutY="126.0" prefHeight="28.0" prefWidth="140.0" />
-                        <Text layoutX="35.0" layoutY="185.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Prix souhaité *:" />
+                        <Text layoutX="35.0" layoutY="185.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Prix souhaité *" />
                         <TextField fx:id="prix_ajouter" layoutX="128.0" layoutY="167.0" prefHeight="26.0" prefWidth="140.0" />
                         <ChoiceBox fx:id="categorie_ajouter" layoutX="128.0" layoutY="84.0" prefHeight="28.0" prefWidth="140.0" />
                         <Label fx:id="labelErreurInsertion" layoutX="411.0" layoutY="268.0" />
