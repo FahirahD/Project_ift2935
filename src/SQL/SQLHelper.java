@@ -372,11 +372,7 @@ public class SQLHelper {
          */
         public ResultSet requetteComplexe4() {
 
-            ResultSet result = query("select courriel\n" +
-                    "        from vendeur\n" +
-                    "        where nomBoutique in(select nomBoutique\n" +
-                    "                from produit as p natural join (select id_prod, prix_vente from vente) as v\n" +
-                    "                where v.prix_vente < p.prixEnVente and p.id_prod in (select id_prod from ficheProduit where ville ='Florenceville'));");
+            ResultSet result = query("select courriel from vendeur where nomBoutique in(select nomBoutique from produit as p natural join (select id_prod, prix_vente from vente) as v where v.prix_vente < p.prixEnVente and p.id_prod in (select id_prod from ficheProduit where ville ='Farnham'));");
 
             return result;
 
