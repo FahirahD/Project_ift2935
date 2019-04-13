@@ -367,8 +367,8 @@ public class SQLHelper {
 
 
         /**
-         * Methode retournant le courriel du vendeur ou tous les produits qui ont ete vendus se trouvaient a Florenceville
-         * @return la liste de tous les courriels des vendeurs ayant vendus un produit se trouvant a Florenceville
+         * Methode retournant le courriel du vendeur ou tous les produits qui ont ete vendus se trouvaient a Farnham
+         * @return la liste de tous les courriels des vendeurs ayant vendus un produit se trouvant a Farnham
          */
         public ResultSet requetteComplexe4() {
 
