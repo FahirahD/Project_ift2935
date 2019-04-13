@@ -103,7 +103,6 @@ public class VendeurController  implements Initializable {
 
         app_stage.hide();
         app_stage.setScene(home_page_scene);
-        System.out.println("fin");
         app_stage.show();
 
     }
@@ -163,9 +162,6 @@ public class VendeurController  implements Initializable {
         try {
             result.next();
             User.boutique = result.getString(1);
-
-            System.out.println(User.boutique);
-
             ResultSet resultProduit = SQL.getProduitVendeur(User.boutique);
             initListProduit(resultProduit);
         } catch (SQLException e) {
