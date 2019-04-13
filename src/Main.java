@@ -11,6 +11,7 @@ public class Main extends Application {
         primaryStage.setTitle("KijijiDEM");
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
+
     }
 
     public static void main(String[] args) {
