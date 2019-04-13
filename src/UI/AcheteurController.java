@@ -96,7 +96,6 @@ public class AcheteurController implements Initializable {
 
         app_stage.hide();
         app_stage.setScene(home_page_scene);
-        System.out.println("fin");
         app_stage.show();
 
     }
@@ -350,7 +349,6 @@ public class AcheteurController implements Initializable {
                 });
 
                 tableview.getColumns().addAll(col);
-                System.out.println("Column ["+i+"] ");
             }
 
             /********************************
@@ -363,7 +361,6 @@ public class AcheteurController implements Initializable {
                     //Iterate Column
                     row.add(rs.getString(i));
                 }
-                System.out.println("Row [1] added "+row );
                 data.add(row);
 
             }
@@ -372,7 +369,6 @@ public class AcheteurController implements Initializable {
             tableview.setItems(data);
         }catch(Exception e){
             e.printStackTrace();
-            System.out.println("Error on Building Data");
         }
     }
 
@@ -510,12 +506,6 @@ public class AcheteurController implements Initializable {
                }
             }
         });
-    }
-
-
-    @FXML
-    public void handleMouseClick(javafx.event.ActionEvent event) throws IOException {
-        System.out.println("yo");
     }
 
 

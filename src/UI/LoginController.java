@@ -29,10 +29,6 @@ public class LoginController implements Initializable {
         user_type.setItems(FXCollections.observableArrayList(st));
         user_type.setValue("Acheteur");
 
-        email_field.setText("quis.accumsan.convallis@nibhDonec.edu");
-        password_field.setText("GBQ31LRS2IL");
-
-
     }
 
     public void login(javafx.event.ActionEvent event) throws IOException {
@@ -47,7 +43,6 @@ public class LoginController implements Initializable {
         {
             User.email=email;
             User.password=password;
-            System.out.println("debut");
 
             Parent home_page_parent = null ;
 
@@ -67,7 +62,6 @@ public class LoginController implements Initializable {
 
             app_stage.hide();
             app_stage.setScene(home_page_scene);
-            System.out.println("fin");
             app_stage.show();
             // setting global u
 
@@ -76,7 +70,7 @@ public class LoginController implements Initializable {
         {
             email_field.clear();
             password_field.clear();
-            invalid_label.setText("Sorry, invalid credentials");
+            invalid_label.setText("désolé erreur d'identification");
         }
         
 
