@@ -383,7 +383,7 @@ public class AcheteurController implements Initializable {
         affiche_nego_active = false;
         offre_ouvert.setVisible(false);
         offre_rejete.setVisible(false);
-
+        offre_accepte.setVisible(false);
         try {
             ArrayList<String> nomCategorie= this.getCategories();
             categorie_ajouter.setItems(FXCollections.observableArrayList(nomCategorie));
