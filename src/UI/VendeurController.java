@@ -53,12 +53,32 @@ public class VendeurController  implements Initializable {
 
 
     public  Button button_deconnecter;
+    public Button button_actualiser;
 
     ArrayList<Produit> listProduits = new ArrayList();
     @FXML
     ListView<String> list_produit_vendeur = new ListView<String>();
     
 
+    public void refreshItems() throws SQLException {
+
+        ResultSet resultProduit = SQL.getProduitVendeur(User.boutique);
+        initListProduit(resultProduit);
+
+        String[] nomProduit = new String[listProduits.size()];
+
+        for (int i = 0; i < listProduits.size(); i++) {
+            nomProduit[i] = listProduits.get(i).getTitre();
+        }
+        if (listProduits.size() != 0) {
+            ObservableList<String> items = FXCollections.observableArrayList(nomProduit);
+            list_produit_vendeur.setItems(items);
+        }
+
+
+
+
+    }
     public ArrayList<String> getCategories() throws SQLException{
         ArrayList<String> nomCategorie = new ArrayList<String>();
         ResultSet categories = SQL.getCategories();
@@ -232,7 +252,10 @@ public class VendeurController  implements Initializable {
     }
 
     public void initListProduit(ResultSet produit) throws SQLException {
-
+        if (listProduits.size() != 0){
+            list_produit_vendeur.getItems().clear();
+            listProduits.clear();
+        }
         while (produit.next()) {
             Produit produit1 = new Produit(produit.getString(1), produit.getString(2));
             listProduits.add(produit1);
