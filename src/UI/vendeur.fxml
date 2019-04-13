@@ -40,6 +40,7 @@
                               <Text fx:id="codepostal_afficher" layoutX="96.0" layoutY="140.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="113.199951171875" />
                            </children>
                         </Pane>
+                        <Button fx:id="button_actualiser" onAction="#refreshItems" layoutX="57.0" layoutY="262.0" mnemonicParsing="false" text="actualiser" />
                      </children>
                   </AnchorPane>
             </content>
