@@ -78,7 +78,6 @@ public class AcheteurController implements Initializable {
     public ArrayList<String> nomProduit;
     public ArrayList<String> nomCategorie;
     public ArrayList<String> requette1;
-    //private Object ResultTableModel;
 
 
     public void deconnection( javafx.event.ActionEvent event){
